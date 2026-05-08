@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(120deg, #1e1e2f, #2c2c3e);
+  color: #fff;
+  font-family: "Cabin";
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #2b2b3c;
+  padding: 20px;
+  border-right: 2px solid #3a3a50;
+  box-shadow: 5px 0 20px rgba(100, 100, 255, 0.2);
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar li:hover {
+  background: #3a3a50;
+  box-shadow: 0 0 10px rgba(120, 120, 255, 0.4);
+}
+
+.sidebar li.active {
+  background: #4b4b63;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+}
+
+.content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  background: #d9d9d9;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.table {
+  margin-top: 20px;
+  background: #3a3a50;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(100, 100, 255, 0.3);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid #555;
+  transition: 0.3s;
+}
+
+.row:hover {
+  background: #4b4b63;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  background: #3fbf5f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #2ecc71;
+  box-shadow: 0 0 10px #4cff88;
+}
