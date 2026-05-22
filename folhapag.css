@@ -157,4 +157,10 @@ label {
 .btn:hover {
   transform: scale(1.03);
 }
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
 /* folha pagamento css

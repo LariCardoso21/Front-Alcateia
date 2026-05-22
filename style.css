@@ -17,21 +17,26 @@ body {
 }
 
 
+
 .sidebar {
   width: 220px;
   background: #2b2b3c;
   padding: 20px;
   border-right: 2px solid #3a3a50;
 
-  
   box-shadow: 5px 0 20px rgba(100, 100, 255, 0.2);
 }
-
-.sidebar .logo {
-  font-size: 24px;
-  margin-bottom: 30px;
+.sidebar li:hover {
+  background: #3a3a50;
 
   
+  box-shadow: 0 0 10px rgba(120,120,255,0.4);
+}
+
+
+.logo {
+  font-size: 24px;
+  margin-bottom: 30px;
 }
 
 .sidebar ul {
@@ -48,14 +53,10 @@ body {
 
 .sidebar li:hover {
   background: #3a3a50;
-
-  
-  box-shadow: 0 0 10px rgba(120,120,255,0.4);
 }
 
 .sidebar li.active {
   background: #4b4b63;
-
 }
 
 
@@ -158,6 +159,7 @@ th, td {
 .tag.id {
   background: #ff9f2f;
   box-shadow: 0 0 10px #ff9f2f;
+  
 }
 
 .tag.produto {

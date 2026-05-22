@@ -6,9 +6,9 @@
 }
 
 body{
-  background: linear-gradient(135deg,#232336,#2c2c46,#1f1f33);
+  background: linear-gradient(120deg, #1e1e2f, #2c2c3e);
   min-height: 100vh;
-  color: white;
+  color: #fff;
 }
 
 .layout{
@@ -16,19 +16,20 @@ body{
   min-height: 100vh;
 }
 
-/* SIDEBAR */
+
 
 .sidebar{
   width: 220px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  padding: 25px 15px;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  background: #2b2b3c;
+  padding: 20px;
+  border-right: 2px solid #3a3a50;
+
+  box-shadow: 5px 0 20px rgba(100, 100, 255, 0.2);
 }
 
 .logo{
-  font-size: 30px;
-  margin-bottom: 40px;
+  font-size: 24px;
+  margin-bottom: 30px;
 }
 
 .sidebar ul{
@@ -36,25 +37,30 @@ body{
 }
 
 .sidebar li{
-  padding: 14px 15px;
-  margin-bottom: 10px;
-  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
-  color: #f1f1f1;
-  font-weight: 500;
 }
 
 .sidebar li:hover{
-  background: rgba(255,255,255,0.08);
+  background: #3a3a50;
+
+  box-shadow: 0 0 10px rgba(120,120,255,0.4);
 }
 
-.sidebar .active{
-  background: rgba(135, 92, 255, 0.18);
-  box-shadow: 0 0 15px rgba(132, 88, 255, 0.35);
+.sidebar li.active{
+  background: #4b4b63;
 }
 
-/* CONTEÚDO */
+.sidebar ul li a{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
 
 .content{
   flex: 1;
@@ -63,79 +69,92 @@ body{
 
 .topbar{
   width: 100%;
-  background: rgba(255,255,255,0.05);
+
+  background: #2b2b3c;
+
   padding: 18px;
-  border-radius: 0 0 16px 16px;
+
+  border-radius: 20px;
+
   text-align: center;
+
   margin-bottom: 40px;
-  backdrop-filter: blur(8px);
+
+  box-shadow: 0 0 20px rgba(100, 100, 255, 0.2);
 }
 
 .topbar h1{
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
 }
 
 
+
 .card{
   max-width: 950px;
+
   margin: auto;
+
   padding: 45px;
-  border-radius: 30px;
 
-  background: rgba(255,255,255,0.05);
+  border-radius: 25px;
 
-  backdrop-filter: blur(15px);
+  background: #2b2b3c;
 
   box-shadow:
-  0 0 40px rgba(122, 86, 255, 0.15),
-  inset 0 0 25px rgba(255,255,255,0.03);
+  0 0 30px rgba(100, 100, 255, 0.2);
 }
 
 .form-grid{
   display: grid;
+
   grid-template-columns: 1fr 320px;
+
   gap: 40px;
 }
 
 .left{
   display: flex;
   flex-direction: column;
+
   gap: 25px;
 }
 
 .input-group{
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
 .input-group label{
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
 }
+
+
 
 input,
 textarea{
   width: 100%;
+
   border: none;
   outline: none;
 
-  background: rgba(255,255,255,0.35);
+  background: #ccc;
 
-  border: 1px solid rgba(255,255,255,0.35);
-
-  color: white;
+  color: #000;
 
   padding: 15px;
-  border-radius: 16px;
+
+  border-radius: 14px;
 
   font-size: 15px;
 }
 
 input::placeholder,
 textarea::placeholder{
-  color: rgba(255,255,255,0.8);
+  color: #666;
 }
 
 textarea{
@@ -144,39 +163,41 @@ textarea{
 }
 
 
+
 .button-area{
   display: flex;
+
   align-items: flex-end;
   justify-content: center;
+
   margin-top: 40px;
 }
 
 button{
   width: 230px;
+
   padding: 16px;
 
   border: none;
-  border-radius: 18px;
 
-  background: linear-gradient(90deg,#6f4cff,#7f5dff);
+  border-radius: 15px;
 
-  color: white;
+  background: linear-gradient(90deg, #5cff8d, #3bbf5a);
+
+  color: #fff;
+
   font-size: 17px;
   font-weight: 600;
 
   cursor: pointer;
 
-  box-shadow:
-  0 0 20px rgba(125, 92, 255, 0.6);
+  box-shadow: 0 0 15px #5cff8d;
 
   transition: 0.3s;
 }
 
 button:hover{
-  transform: translateY(-2px);
-
-  box-shadow:
-  0 0 30px rgba(125, 92, 255, 0.9);
+  transform: scale(1.03);
 }
 
 

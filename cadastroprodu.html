@@ -17,84 +17,117 @@
 
   <div class="layout">
 
-
-
     <aside class="sidebar">
 
       <div class="logo">👤</div>
 
-      <ul>
-        <li>Cliente</li>
-        <li>Produtos</li>
-        <li class="active">Controle de Estoque</li>
-        <li>Relatórios</li>
-        <li>Vendas</li>
-        <li>Financeiro</li>
-      </ul>
+      <nav>
+        <ul>
+
+          <li>
+            <a href="funcionario.html">Cliente</a>
+          </li>
+
+          <li class="active">
+            <a href="listaprod.html">Produtos</a>
+          </li>
+
+          <li>
+            <a href="controleesto.html">Controle de Estoque</a>
+          </li>
+
+          <li>
+            <a href="funcionario.html">Funcionarios</a>
+          </li>
+
+          <li>
+            <a href="folhapag.html">Relatórios</a>
+          </li>
+
+          <li>
+            <a href="controleesto.html">Vendas</a>
+          </li>
+
+          <li>
+            <a href="financeiro.html">Financeiro</a>
+          </li>
+
+          
+
+        </ul>
+      </nav>
 
     </aside>
 
-    
-
     <main class="content">
 
-      <div class="topbar">
+      <header class="topbar">
         <h1>Cadastro de Produtos</h1>
-      </div>
+      </header>
 
-      <div class="card">
+      <section class="card">
 
         <div class="form-grid">
-
-         
 
           <div class="left">
 
             <div class="input-group">
-              <label>Nome do produto</label>
+              <label>Nome do Produto</label>
+
               <input type="text" placeholder="Ex: Mouse Gamer">
             </div>
 
             <div class="input-group">
-              <label>Estoque mínimo</label>
-              <input type="number">
+              <label>Quantidade em Estoque</label>
+
+              <input type="number" placeholder="0">
             </div>
 
             <div class="input-group">
-              <label>Quantidade</label>
-              <input type="number">
+              <label>Quantidade Mínima</label>
+
+              <input type="number" placeholder="0">
             </div>
 
             <div class="input-group">
-              <label>Cor</label>
-              <input type="text">
+              <label>Marca</label>
+
+              <input type="text" placeholder="Digite a marca">
             </div>
 
             <div class="input-group">
-              <label>Preço</label>
+              <label>Valor</label>
+
               <input type="text" placeholder="R$ 0,00">
             </div>
 
           </div>
 
-          
-
           <div class="right">
 
             <div class="input-group">
               <label>Descrição do Produto</label>
-              <textarea></textarea>
+
+              <textarea placeholder="Digite uma descrição do produto"></textarea>
             </div>
 
             <div class="button-area">
-              <button>Cadastrar produto</button>
+
+              <form action="listaprod.html">
+
+                <button type="submit">
+                  Salvar Produto
+                </button>
+
+              </form>
+
             </div>
 
           </div>
 
         </div>
 
-      </div>
+      </section>
 
     </main>
 

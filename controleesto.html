@@ -10,86 +10,146 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <div class="layout">
 
-        
         <aside class="sidebar">
 
             <div class="logo">👤</div>
 
             <nav>
                 <ul>
-                    <li>Cliente</li>
-                    <li class="active">Produtos</li>
-                    <li>Controle de Estoque</li>
-                    <li>Relatorios</li>
-                    <li>Vendas</li>
-                    <li>Financeiro</li>
+
+                    <li>
+                        <a href="funcionario.html">Cliente</a>
+                    </li>
+
+                    <li>
+                        <a href="listaprod.html">Produtos</a>
+                    </li>
+
+                    <li class="active">
+                        <a href="controleesto.html">Controle de Estoque</a>
+                    </li>
+
+                    <li>
+                        <a href="funcionario.html">Funcionarios</a>
+                    </li>
+
+                    <li>
+                        <a href="folhapag.html">Relatórios</a>
+                    </li>
+
+                    <li>
+                        <a href="controleesto.html">Vendas</a>
+                    </li>
+
+                    <li>
+                        <a href="financeiro.html">Financeiro</a>
+                    </li>
+
+                   
+
                 </ul>
             </nav>
 
         </aside>
 
-      
         <main class="content">
 
             <h2>Painel</h2>
 
-            
             <div class="top-bar">
 
                 <div class="search-box">
-                    <input type="text" placeholder="Pesquisar...">
-                    <span>🔍</span>
-                </div>
 
-                <button class="btn-add">
-                    + cadastrar novo produto
-                </button>
+                    <input type="text" placeholder="Pesquisar...">
+
+                    <span>🔍</span>
+
+                </div>
 
             </div>
 
-           
             <section class="card">
 
-                <h3>Controle de estoque</h3>
+                <h3>Controle de Estoque</h3>
 
-                
                 <div class="table-header">
 
-                    <span class="id">id</span>
+                    <span class="id">ID</span>
+
                     <span class="produto">Produto</span>
+
                     <span class="quantidade">Quantidade</span>
+
                     <span class="estoque">Estoque</span>
 
                 </div>
 
-               
                 <div class="table">
 
                     <div class="row">
+
                         <span>2</span>
-                        <span>Lapis</span>
+
+                        <span>Lápis</span>
+
                         <span>5</span>
 
                         <button class="status green">
-                            em estoque
+                            Em estoque
                         </button>
+
                     </div>
 
                     <div class="row">
+
                         <span>5</span>
+
                         <span>Caderno</span>
+
                         <span>7</span>
 
                         <button class="status red">
-                            baixo estoque
+                            Baixo estoque
                         </button>
+
+                    </div>
+
+                    <div class="row">
+
+                        <span>8</span>
+
+                        <span>Borracha</span>
+
+                        <span>12</span>
+
+                        <button class="status green">
+                            Em estoque
+                        </button>
+
+                    </div>
+
+                    <div class="row">
+
+                        <span>10</span>
+
+                        <span>Caneta Azul</span>
+
+                        <span>3</span>
+                                
+
+                        <form action="cadastroprodu.html">
+                        <button class="status red">
+                            Baixo estoque
+                        </button>
+                        </form>
+
                     </div>
 
                 </div>

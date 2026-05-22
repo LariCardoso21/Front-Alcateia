@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,115 +14,139 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Ícones -->
   <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-  <div class="layout">
+<div class="layout">
 
-    <!-- SIDEBAR -->
+  
 
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-      <div class="logo">
-        <i class="fa-regular fa-user"></i>
-      </div>
+    <div class="logo">👤</div>
 
+    <nav>
       <ul>
-        <li>Cliente</li>
-        <li>Produtos</li>
-        <li class="active">Controle de Estoque</li>
-        <li>Relatórios</li>
-        <li>Vendas</li>
-        <li>Financeiro</li>
+
+        <li>
+          <a href="funcionario.html">Cliente</a>
+        </li>
+
+        <li class="active">
+          <a href="listaprod.html">Produtos</a>
+        </li>
+
+        <li>
+          <a href="controleesto.html">Controle de Estoque</a>
+        </li>
+
+        <li>
+          <a href="funcionario.html">Funcionários</a>
+        </li>
+
+        <li>
+          <a href="folhapag.html">Relatórios</a>
+        </li>
+
+        <li> <a href="controleesto.html">Vendas</a></li>
+
+        <li>
+          <a href="financeiro.html">Financeiro</a>
+        </li>
+
+      
+
       </ul>
+    </nav>
 
-    </aside>
+  </aside>
 
-    <!-- CONTEÚDO -->
 
-    <main class="content">
 
-      <div class="topbar"></div>
+  <main class="content">
 
-      <div class="card">
+    <div class="topbar"></div>
 
-        <h2>Produtos cadastrados</h2>
+    <div class="card">
 
-        <!-- CABEÇALHO -->
+      <h2>Produtos cadastrados</h2>
 
-        <div class="table-header">
+      <div class="table-header">
 
-          <div class="header orange">
-            Produto
-          </div>
-
-          <div class="header green">
-            Quantidade
-          </div>
-
-          <div class="header blue"></div>
-
+        <div class="header orange">
+          Produto
         </div>
 
-        <!-- TABELA -->
+        <div class="header green">
+          Quantidade
+        </div>
 
-        <div class="table">
+        <div class="header blue"></div>
 
-          <div class="row">
-            <span>Pedido1234</span>
-            <span>10</span>
+      </div>
 
-            <div class="actions">
-              <i class="fa-regular fa-pen-to-square edit"></i>
-              <i class="fa-solid fa-circle-xmark delete"></i>
-            </div>
+      <div class="table">
+
+        <div class="row">
+          <span>Pedido1234</span>
+          <span>10</span>
+
+          <div class="actions">
+            <i class="fa-regular fa-pen-to-square edit"></i>
+            <i class="fa-solid fa-circle-xmark delete"></i>
           </div>
+        </div>
 
-          <div class="row">
-            <span>Pedido1234</span>
-            <span>15</span>
+        <div class="row">
+          <span>Pedido1234</span>
+          <span>15</span>
 
-            <div class="actions">
-              <i class="fa-regular fa-pen-to-square edit"></i>
-              <i class="fa-solid fa-circle-xmark delete"></i>
-            </div>
+          <div class="actions">
+            <i class="fa-regular fa-pen-to-square edit"></i>
+            <i class="fa-solid fa-circle-xmark delete"></i>
           </div>
+        </div>
 
-          <div class="row">
-            <span>Pedido1234</span>
-            <span>20</span>
+        <div class="row">
+          <span>Pedido1234</span>
+          <span>20</span>
 
-            <div class="actions">
-              <i class="fa-regular fa-pen-to-square edit"></i>
-              <i class="fa-solid fa-circle-xmark delete"></i>
-            </div>
+          <div class="actions">
+            <i class="fa-regular fa-pen-to-square edit"></i>
+            <i class="fa-solid fa-circle-xmark delete"></i>
           </div>
+        </div>
 
-          <div class="row">
-            <span>Pedido1234</span>
-            <span>15</span>
+        <div class="row">
+          <span>Pedido1234</span>
+          <span>15</span>
 
-            <div class="actions">
-              <i class="fa-regular fa-pen-to-square edit"></i>
-              <i class="fa-solid fa-circle-xmark delete"></i>
-            </div>
+          <div class="actions">
+            <i class="fa-regular fa-pen-to-square edit"></i>
+            <i class="fa-solid fa-circle-xmark delete"></i>
           </div>
-
         </div>
 
       </div>
 
-      <div class="button-area">
-        <button>Cadastrar produto</button>
-      </div>
+    </div>
 
-    </main>
+    <div class="button-area">
 
-  </div>
+      <form action="cadastroprodu.html">
+        <button>
+          Cadastrar produto
+        </button>
+      </form>
+
+    </div>
+
+  </main>
+
+</div>
 
 </body>
-</html>
+</html>  

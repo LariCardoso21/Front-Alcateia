@@ -1,21 +1,20 @@
-
-{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Cabin", sans-serif;
 }
 
 body {
   background: linear-gradient(120deg, #1e1e2f, #2c2c3e);
   color: #fff;
-  font-family: "Cabin";
 }
 
 .layout {
   display: flex;
   height: 100vh;
 }
+
 
 
 .sidebar {
@@ -26,7 +25,7 @@ body {
   box-shadow: 5px 0 20px rgba(100, 100, 255, 0.2);
 }
 
-.sidebar .logo {
+.logo {
   font-size: 24px;
   margin-bottom: 30px;
 }
@@ -45,12 +44,19 @@ body {
 
 .sidebar li:hover {
   background: #3a3a50;
-  box-shadow: 0 0 10px rgba(120,120,255,0.4);
+  box-shadow: 0 0 10px rgba(120, 120, 255, 0.4);
 }
 
 .sidebar li.active {
   background: #4b4b63;
 }
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 
 
 .content {
@@ -59,9 +65,9 @@ body {
 }
 
 .content h2 {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
+
 
 
 .table-header {
@@ -69,30 +75,29 @@ body {
   justify-content: space-between;
   background: #d9d9d9;
   color: #000;
-  padding: 10px 20px;
-  border-radius: 10px;
+  padding: 15px 20px;
+  border-radius: 12px;
   font-weight: bold;
 }
 
-
 .table {
   margin-top: 20px;
-  background: #3a3a50;
-  border-radius: 10px;
+  background: #2b2b3c;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 0 15px rgba(100,100,255,0.3);
+  box-shadow: 0 0 20px rgba(100, 100, 255, 0.2);
 }
 
 .row {
   display: flex;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 15px 20px;
   border-bottom: 1px solid #555;
   transition: 0.3s;
 }
 
 .row:hover {
-  background: #4b4b63;
+  background: #3a3a50;
 }
 
 .row:last-child {
@@ -100,25 +105,25 @@ body {
 }
 
 
+
 .actions {
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   justify-content: flex-end;
 }
 
 button {
-  background: #3fbf5f;
+  padding: 14px 25px;
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 15px;
+  background: linear-gradient(90deg, #5cff8d, #3bbf5a);
+  color: #fff;
+  font-size: 15px;
   cursor: pointer;
-  color: #ffff;
-  font-weight: bold;
+  box-shadow: 0 0 15px #5cff8d;
   transition: 0.3s;
 }
 
 button:hover {
-  background: #2ecc71;
-  box-shadow: 0 0 10px #4cff88;
+  transform: scale(1.03);
 }
-/*funcionario css

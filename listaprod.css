@@ -16,7 +16,6 @@ body{
   min-height: 100vh;
 }
 
-/* SIDEBAR */
 
 .sidebar{
   width: 220px;
@@ -52,7 +51,13 @@ body{
   box-shadow: 0 0 15px rgba(122, 90, 255, 0.3);
 }
 
-/* CONTEÚDO */
+.sidebar ul li a{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
 
 .content{
   flex: 1;
@@ -63,7 +68,7 @@ body{
   background: rgba(255,255,255,0.06);
 }
 
-/* CARD */
+
 
 .card{
   width: 70%;
@@ -90,13 +95,13 @@ body{
   font-size: 30px;
 }
 
-/* HEADER */
+
 
 .table-header{
   display: flex;
   gap: 30px;
-  margin-bottom: 0;
   padding: 0 20px;
+  margin-bottom: 10px;
 }
 
 .header{
@@ -124,7 +129,7 @@ body{
   background: #3f95ea;
 }
 
-/* TABELA */
+
 
 .table{
   width: 100%;
@@ -140,10 +145,18 @@ body{
 
   padding: 16px 25px;
 
-  border: 1px solid rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
 
   font-size: 15px;
+
+  transition: 0.3s;
 }
+
+.row:hover{
+  background: rgba(255,255,255,0.05);
+}
+
+
 
 .actions{
   display: flex;
@@ -168,7 +181,7 @@ body{
   transform: scale(1.15);
 }
 
-/* BOTÃO */
+
 
 .button-area{
   width: 100%;
@@ -204,7 +217,6 @@ button:hover{
   0 0 35px rgba(120, 90, 255, 1);
 }
 
-/* RESPONSIVO */
 
 @media(max-width: 900px){
 

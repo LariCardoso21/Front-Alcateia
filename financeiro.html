@@ -21,100 +21,127 @@
 
   <div class="layout">
 
-    
-
     <aside class="sidebar">
 
       <div class="logo">
         <i class="fa-regular fa-user"></i>
       </div>
 
-      <ul>
-        <li>Cliente</li>
-        <li>Produtos</li>
-        <li>Controle de Estoque</li>
-        <li>Relatórios</li>
-        <li>Vendas</li>
-        <li class="active">Financeiro</li>
-      </ul>
+      <nav>
+        <ul>
+          <li><a href="funcionario.html">Cliente</a></li>
+          <li><a href="listaprod.html">Produtos</a></li>
+          <li><a href="controleesto.html">Controle de Estoque</a></li>
+          <li><a href="funcionario.html">Funcionarios</a></li>
+          <li><a href="folhapag.html">Relatórios</a></li>
+          <li><a href="controleesto.html">Vendas</a></li>
+          <li class="active"><a href="financeiro.html">Financeiro</a></li>
+          
+        </ul>
+      </nav>
 
     </aside>
 
-   
+    <main class="main">
 
-    <main class="content">
+      <header class="header">
+        <h1>Relatórios Financeiros</h1>
+      </header>
 
-      <div class="topbar">
-        <h1>Relatórios de financeiro</h1>
-      </div>
+      <div class="content">
 
-      <section class="dashboard">
+        <div class="left">
 
-        <h2>Entradas e saídas</h2>
+          <div class="card">
+            <h3>Entradas e Saídas</h3>
 
-      
-        <div class="cards">
+            <div class="row">
+              <div>
+                <label>Entradas</label>
+                <input type="text" value="R$ 25.000,00">
+              </div>
 
-          <div class="card entrada">
-            <h3>Entradas</h3>
-            <p class="green">R$ 25000,00</p>
+              <div>
+                <label>Saídas</label>
+                <input type="text" value="R$ 5.000,00">
+              </div>
+            </div>
           </div>
 
           <div class="card">
-            <h3>Saídas</h3>
-            <p class="red">R$ 5000,00</p>
+            <h3>Movimentações</h3>
+
+            <div class="row">
+              <div>
+                <label>Data</label>
+                <input type="text" value="15/03/2026">
+              </div>
+
+              <div>
+                <label>Tipo</label>
+                <input type="text" value="Saída">
+              </div>
+            </div>
+
+            <label>Descrição</label>
+            <input type="text" value="Pagamento funcionário">
+
+            <label>Valor</label>
+            <input type="text" value="R$ 3.500,00">
+          </div>
+
+          <div class="card">
+            <h3>Informações Gerais</h3>
+
+            <div class="row">
+              <div>
+                <label>Pedidos Pendentes</label>
+                <input type="text" value="+50">
+              </div>
+
+              <div>
+                <label>Estoque Baixo</label>
+                <input type="text" value="5 itens">
+              </div>
+            </div>
+
+            <label>Contas a Pagar</label>
+            <input type="text" value="R$ 2.000,00">
           </div>
 
         </div>
 
+        <div class="right">
 
-        <div class="table-header">
-          <span>Data</span>
-          <span>Descrição</span>
-          <span>Tipo</span>
-          <span>Valor</span>
-        </div>
+          <div class="card resumo">
+            <h3>Resumo Financeiro</h3>
 
-        <div class="table">
+            <p>Total Entradas:
+              <span class="green">R$ 25.000,00</span>
+            </p>
 
-          <div class="row">
-            <span>15/03/2026</span>
-            <span>Pagamento funcionario</span>
-            <span class="red">Saída</span>
-            <span class="red">R$ 3.500,00</span>
+            <p>Total Saídas:
+              <span class="negativo">-R$ 5.000,00</span>
+            </p>
           </div>
 
-          <div class="row">
-            <span>20/05/2025</span>
-            <span>Recebimento</span>
-            <span class="green">Entrada</span>
-            <span class="green">R$ 1000,00</span>
+          <div class="card total">
+            <h2>Saldo Atual</h2>
+
+            <span class="green">R$ 20.000,00</span>
+
+            <small>valor disponível em caixa</small>
           </div>
 
-        </div>
-
-       
-
-        <div class="info-cards">
-
-          <div class="info-box">
-            <h3>Pedidos Pendentes</h3>
-            <p>+ 50</p>
-          </div>
-
-          <div class="info-box">
-            <h3>Estoque baixo</h3>
-            <p>5 itens</p>
-          </div>
-
-          <div class="info-box">
-            <h3>Contas a pagar</h3>
-            <p class="red">R$ 2.000,00</p>
-          </div>
+          <form action="folhapag.html">
+            <button class="btn">
+              Ir para folha de pagamento
+            </button>
+          </form>
 
         </div>
 
-      </section>
+      </div>
 
     </main>
 
