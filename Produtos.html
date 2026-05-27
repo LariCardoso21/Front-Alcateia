@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcateia - Produtos</title>
+    <link rel="stylesheet" href="produtos.css">
+</head>
+<body style="overflow-x: hidden;">
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li class="active"><a href="produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="vendas.html">Vendas</a></li>
+
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Produtos Cadastrados</h1>
+                <p class="subtitle">Gerencie o catálogo de produtos e seus preços</p>
+            </div>
+            <button class="btn-add-product" onclick="window.location.href=' cadastroProduto.html'">+ Cadastrar produto</button>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>PRODUTO</th>
+                        <th>QUANTIDADE</th>
+                        <th style="text-align: center;">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <span>Produto1</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 1', '10', 'R$ 150,00', 'Logitech', 'Mouse com sensor óptico de alta precisão e iluminação RGB.')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>10</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action edit">Editar</button>
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <span>Produto2</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 2', '15', 'R$ 320,00', 'Razer', 'Teclado mecânico com switches silenciosos e padrão ABNT2.')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>15</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action edit">Editar</button>
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <span>Produto3</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 3', '20', 'R$ 1.200,00', 'ASUS', 'Monitor Gamer 24 polegadas com taxa de atualização de 144Hz.')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>20</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action edit">Editar</button>
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <span>Produto4</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 4', '5', 'R$ 450,00', 'HyperX', 'Headset estéreo com isolamento acústico e microfone removível.')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>5</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action edit">Editar</button>
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="drawer-produto" class="product-drawer">
+        <div class="header">
+            <h3>Detalhes do Produto</h3>
+            <button class="btn-close-drawer" onclick="fecharDetalhesProd()">&times;</button>
+        </div>
+        
+        <div class="drawer-body">
+            <div class="info-group">
+                <label>Nome do Produto</label>
+                <input type="text" id="prod-nome">
+            </div>
+
+            <div class="info-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" id="prod-marca">
+            </div>
+
+            <div class="info-group-row">
+                <div class="info-group">
+                    <label>Quantidade em Estoque</label>
+                    <input type="text" id="prod-qtd">
+                </div>
+                <div class="info-group">
+                    <label>Preço Unitário</label>
+                    <input type="text" id="prod-preco">
+                </div>
+            </div>
+
+            <div class="info-group">
+                <label>Descrição Completa</label>
+                <textarea id="prod-desc" rows="5"></textarea>
+            </div>
+
+            <div class="drawer-actions">
+                <button type="button" class="btn-save-drawer" onclick="salvarProduto()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        function abrirDetalhesProd(nome, qtd, preco, marca, desc) {
+            document.getElementById('prod-nome').value = nome;
+            document.getElementById('prod-qtd').value = qtd;
+            document.getElementById('prod-preco').value = preco;
+            document.getElementById('prod-marca').value = marca;
+            document.getElementById('prod-desc').value = desc;
+
+            document.getElementById('drawer-produto').classList.add('active');
+        }
+
+        function fecharDetalhesProd() {
+            document.getElementById('drawer-produto').classList.remove('active');
+        }
+
+        function salvarProduto() {
+            alert("Produto atualizado com sucesso!");
+            fecharDetalhesProd();
+        }
+    </script>
+
+</body>
+</html>

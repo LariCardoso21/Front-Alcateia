@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <link rel="stylesheet" href="controleEstoque.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li class="active"><a href="#">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Controle de Estoque</h1>
+                <p class="subtitle">Gerencie as entradas, saídas e produtos em estado crítico.</p>
+            </div>
+        </div>
+
+        <div class="stock-summary">
+            <div class="summary-card total">
+                <span class="summary-label">Total de Itens</span>
+                <span class="summary-value">1.205</span>
+            </div>
+            <div class="summary-card critical">
+                <span class="summary-label">Estoque Crítico (Abaixo do Mínimo)</span>
+                <span class="summary-value">3</span>
+            </div>
+            <div class="summary-card out">
+                <span class="summary-label">Produtos Esgotados</span>
+                <span class="summary-value">1</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="container">
+                <h3>Movimentação de Produtos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtd. Atual</th>
+                            <th>Mínimo</th>
+                            <th>Status</th>
+                            <th style="width: 150px; text-align: center;">Ações rápidos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mouse Gamer RGB</td>
+                            <td>15</td>
+                            <td>10</td>
+                            <td><span class="status-badge normal">Normal</span></td>
+                            <td>
+                                <div class="stock-actions">
+                                    <button class="btn-stock btn-add" title="Adicionar Entrada">+ Adicionar</button>
+                                    <button class="btn-stock btn-remove" title="Registrar Saída">- Retirar</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Teclado Mecânico</td>
+                            <td>4</td>
+                            <td>8</td>
+                            <td><span class="status-badge alert">Crítico</span></td>
+                            <td>
+                                <div class="stock-actions">
+                                    <button class="btn-stock btn-add">+ Adicionar</button>
+                                    <button class="btn-stock btn-remove">- Retirar</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Headset Advanced</td>
+                            <td>0</td>
+                            <td>5</td>
+                            <td><span class="status-badge esgotado">Esgotado</span></td>
+                            <td>
+                                <div class="stock-actions">
+                                    <button class="btn-stock btn-add">+ Adicionar</button>
+                                    <button class="btn-stock btn-remove" disabled style="opacity: 0.3; cursor: not-allowed;">- Retirar</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Monitor 24' Full HD</td>
+                            <td>22</td>
+                            <td>5</td>
+                            <td><span class="status-badge normal">Normal</span></td>
+                            <td>
+                                <div class="stock-actions">
+                                    <button class="btn-stock btn-add">+ Adicionar</button>
+                                    <button class="btn-stock btn-remove">- Retirar</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="history-container">
+                <h3>Últimos Ajustes</h3>
+                <ul class="history-list">
+                    <li class="history-item input">
+                        <span class="history-type">Entrada</span>
+                        <p><strong>+10</strong> unidades de Monitor 24'</p>
+                        <small>Hoje, 10:30</small>
+                    </li>
+                    <li class="history-item output">
+                        <span class="history-type">Saída</span>
+                        <p><strong>-2</strong> unidades de Teclado Mecânico</p>
+                        <small>Hoje, 08:15</small>
+                    </li>
+                    <li class="history-item output">
+                        <span class="history-type">Saída</span>
+                        <p><strong>-5</strong> unidades de Headset Advanced</p>
+                        <small>Ontem, 17:00</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

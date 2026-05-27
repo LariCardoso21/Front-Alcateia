@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcateia - Histórico de Vendas</title>
+    <link rel="stylesheet" href="Vendas.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li class="active"><a href="Vendas.html">Vendas</a></li>
+          
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Vendas Realizadas</h1>
+                <p class="subtitle">Consulte o histórico de transações e o status de cada pedido.</p>
+            </div>
+            <form action="novaVenda.html">
+            <button class="btn-new-sale">+ Nova Venda</button>
+            </form>
+        </div>
+
+        <div class="sales-summary">
+            <div class="total-sales">
+                <span class="summary-label">Faturamento (Hoje)</span>
+                <span class="summary-value">R$ 3.850,00</span>
+            </div>
+            <div class="count-sales">
+                <span class="summary-label">Vendas Concluídas</span>
+                <span class="summary-value">24</span>
+            </div>
+            <div class="ticket-sales">
+                <span class="summary-label">Ticket Médio</span>
+                <span class="summary-value">R$ 160,41</span>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <h3>Histórico Recente</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Produtos</th>
+                        <th>Data/Hora</th>
+                        <th>Valor Total</th>
+                        <th>Forma de Pgto.</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1024</td>
+                        <td>Carlos Eduardo M.</td>
+                        <td>1x Mouse Gamer RGB, 1x Mousepad</td>
+                        <td>22/05/2026 10:42</td>
+                        <td class="price-value">R$ 215,00</td>
+                        <td>Cartão de Crédito</td>
+                        <td><span class="status-badge paid">Pago</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1023</td>
+                        <td>Amanda Silva Costa</td>
+                        <td>1x Teclado Mecânico Switch Blue</td>
+                        <td>22/05/2026 09:15</td>
+                        <td class="price-value">R$ 349,90</td>
+                        <td>Pix</td>
+                        <td><span class="status-badge paid">Pago</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1022</td>
+                        <td>Roberto de Souza</td>
+                        <td>2x Monitor 24' Full HD 144Hz</td>
+                        <td>21/05/2026 18:30</td>
+                        <td class="price-value">R$ 1.800,00</td>
+                        <td>Boleto Bancário</td>
+                        <td><span class="status-badge pending">Pendente</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1021</td>
+                        <td>Mariana Rodrigues</td>
+                        <td>1x Headset Advanced Wireless</td>
+                        <td>21/05/2026 14:22</td>
+                        <td class="price-value">R$ 450,00</td>
+                        <td>Pix</td>
+                        <td><span class="status-badge canceled">Cancelado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

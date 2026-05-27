@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="clientes.css">
+</head>
+<body style="overflow-x: hidden;">
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li class="active"><a href="clientes.html">Clientes</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Clientes</h1>
+                <p class="subtitle">Descrição e Cadastro de Clientes</p>
+            </div>
+            <button class="btn-add-client" onclick="window.location.href='adicionarClicli.html'">+ Adicionar Clientes</button>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>CLIENTE</th>
+                        <th>EMAIL</th>
+                        <th>TELEFONE</th>
+                        <th style="text-align: center;">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="client-cell">
+                                <span>Cliente1</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 1', 'cliente1@gmail.com', '14 99999-9999', 'Rua das Flores, 123', 'Marília - SP', '12/05/2025')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>Cliente1@gmail</td>
+                        <td>14 99999999</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="client-cell">
+                                <span>Cliente2</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 2', 'cliente2@gmail.com', '14 98888-8888', 'Av. Paulista, 1500', 'São Paulo - SP', '20/08/2025')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>Cliente2@gmail</td>
+                        <td>14 99999999</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="client-cell">
+                                <span>Cliente3</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 3', 'cliente3@gmail.com', '14 97777-7777', 'Rua Bahia, 450', 'Marília - SP', '02/01/2026')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>Cliente3@gmail</td>
+                        <td>14 99999999</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="client-cell">
+                                <span>Cliente4</span>
+                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 4', 'cliente4@gmail.com', '14 96666-6666', 'Rua Goiás, 89', 'Marília - SP', '18/03/2026')">&#10142;</button>
+                            </div>
+                        </td>
+                        <td>Cliente4@gmail</td>
+                        <td>14 99999999</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-action delete">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="drawer-detalhes" class="client-drawer">
+        <div class="drawer-header">
+            <h3>Detalhes do Cliente</h3>
+            <button class="btn-close-drawer" onclick="fecharDetalhes()">&times;</button>
+        </div>
+        
+        <div class="drawer-body">
+            <div class="info-group">
+                <label>Nome Completo</label>
+                <input type="text" id="detalhe-nome" value="">
+            </div>
+
+            <div class="info-group">
+                <label>E-mail Corporativo</label>
+                <input type="email" id="detalhe-email" value="">
+            </div>
+
+            <div class="info-group">
+                <label>Telefone / WhatsApp</label>
+                <input type="text" id="detalhe-telefone" value="">
+            </div>
+
+            <div class="info-group">
+                <label>Endereço Residencial/Comercial</label>
+                <input type="text" id="detalhe-endereco" value="">
+            </div>
+
+            <div class="info-group">
+                <label>Cidade / Estado</label>
+                <input type="text" id="detalhe-cidade" value="">
+            </div>
+
+            <div class="info-group">
+                <label>Data de Cadastro no Sistema</label>
+                <input type="text" id="detalhe-data" value="" readonly style="border-style: dashed; opacity: 0.7;">
+            </div>
+
+            <div class="drawer-actions">
+                <button type="button" class="btn-save-drawer" onclick="salvarAlteracoes()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirDetalhes(nome, email, telefone, endereco, city, dataCadastro) {
+            document.getElementById('detalhe-nome').value = nome;
+            document.getElementById('detalhe-email').value = email;
+            document.getElementById('detalhe-telefone').value = telefone;
+            document.getElementById('detalhe-endereco').value = endereco;
+            document.getElementById('detalhe-cidade').value = city;
+            document.getElementById('detalhe-data').value = dataCadastro;
+
+            document.getElementById('drawer-detalhes').classList.add('active');
+        }
+
+        function fecharDetalhes() {
+            document.getElementById('drawer-detalhes').classList.remove('active');
+        }
+
+        function salvarAlteracoes() {
+            alert("Alterações do cliente salvas com sucesso!");
+            fecharDetalhes();
+        }
+    </script>
+
+</body>
+</html>
