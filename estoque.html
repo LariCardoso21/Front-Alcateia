@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+    <link rel="stylesheet" href="estoque.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li ><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li class="active"><a href="#">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        
+        <div class="header">
+            <div>
+                <h1>Estoque</h1>
+                <p class="subtitle">Descricao e Estoque</p>
+            </div>
+            
+            <div class="header-actions">
+                <button class="btn-primary" onclick="window.location.href='controleEstoque.html'">Controle de Estoque</button>
+            </div>
+        </div>
+
+        <div class="content-card">
+            
+             <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th style="width: 100px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Arroz</td>
+                        <td>60</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-delete">Em baixa</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mochila</td>
+                        <td>10</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit">Estoque</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td>Estojo</td>
+                        <td>38</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-delete">Em baixa</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lapis</td>
+                        <td>44</td>
+                        <td>
+                            <div class="action-buttons">
+                                
+                                <button class="btn-action btn-edit">Estoque</button>
+                               
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

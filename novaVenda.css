@@ -7,12 +7,12 @@
 
 :root {
     --bg-dark: #120e2e;        
-    --bg-card: #1a153b;        
+    --bg-card: #1a153b;         
     --border-purple: #2a225c;   
     --purple-main: #7c4dff;     
     --purple-hover: #651fff;    
     --text-white: #ffffff;      
-    --text-muted: #a5a1b8;     
+    --text-muted: #a5a1b8;      
     --bg-input: #130f26;        
 }
 
@@ -25,10 +25,9 @@ body {
 
 .sidebar {
     width: 250px;
-    background-color: var(--bg-card);
+    background-color: #1a153b;
     padding: 30px 20px;
-    border-right: 1px solid var(--border-purple);
-    flex-shrink: 0;
+    border-right: 1px solid #2a225c;
 }
 
 .logo-area {
@@ -36,39 +35,25 @@ body {
     font-weight: bold;
     color: #b39ddb;
     margin-bottom: 40px;
-    padding-left: 10px;
-    letter-spacing: 0.5px;
 }
 
-.nav-links {
-    list-style: none;
-}
-
-.nav-links li {
-    margin-bottom: 8px;
-}
-
+.nav-links { list-style: none; }
+.nav-links li { margin-bottom: 8px; }
 .nav-links a {
-    color: var(--text-muted);
+    color: #a5a1b8;
     text-decoration: none;
     padding: 12px 15px;
     display: block;
     border-radius: 8px;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
 }
-
-.nav-links li.active a, 
-.nav-links a:hover {
+.nav-links li.active a, .nav-links a:hover {
     background-color: #312763;
-    color: var(--text-white);
-    font-weight: 600;
+    color: #fff;
 }
 
 .main-content {
     flex: 1;
     padding: 40px;
-    overflow-y: auto;
 }
 
 .header-actions {
@@ -86,58 +71,54 @@ body {
     margin-top: 4px;
 }
 
-.folha-grid {
+.venda {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1.4fr 1fr;
     gap: 30px;
     align-items: start;
 }
 
 @media (max-width: 1024px) {
-    .folha-grid {
+    .venda {
         grid-template-columns: 1fr;
     }
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.form-section {
+.container, .checkout-container {
     background-color: var(--bg-card);
     border: 1px solid var(--border-purple);
     border-radius: 12px;
-    padding: 25px;
+    padding: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-purple);
+}
+
+.form-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .form-section h3 {
     font-size: 1rem;
     color: #b39ddb;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-weight: 600;
-    border-bottom: 1px solid rgba(42, 34, 92, 0.6);
-    padding-bottom: 8px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 16px;
 }
 
-.form-group:last-child {
-    margin-bottom: 0;
-}
-
-.input-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
+.flex-3 { flex: 3; }
+.flex-1 { flex: 1; }
 
 label {
     font-size: 0.85rem;
@@ -145,7 +126,7 @@ label {
     font-weight: 500;
 }
 
-input {
+input, select {
     background-color: var(--bg-input);
     border: 1px solid var(--border-purple);
     border-radius: 6px;
@@ -156,88 +137,120 @@ input {
     transition: border-color 0.2s;
 }
 
-input:focus {
+input:focus, select:focus {
     border-color: var(--purple-main);
 }
 
-input::placeholder {
-    color: #5d5875;
+.product-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
 }
 
-.container {
-    position: sticky;
-    top: 40px;
-}
-
-.card {
-    background-color: var(--bg-card);
+.btn-add-item {
+    background-color: #312763;
+    color: white;
     border: 1px solid var(--border-purple);
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 25px;
+    padding: 12px 20px;
     font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
 }
 
-.totais {
+.btn-add-item:hover {
+    background-color: var(--purple-main);
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.checkout-container h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-purple);
+    padding-bottom: 10px;
+}
+
+.cart-list {
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-input);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(42, 34, 92, 0.5);
+}
+
+.item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.item-meta {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.item-price {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.totals {
+    background-color: rgba(42, 34, 92, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-purple);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-bottom: 25px;
 }
 
 .total {
     display: flex;
     justify-content: space-between;
-    font-size: 0.95rem;
-}
-
-.value-positive { color: #4caf50; font-weight: 500; }
-.value-negative { color: #ff5252; font-weight: 500; }
-
-.divider {
-    border: none;
-    border-top: 1px solid var(--border-purple);
-    margin-bottom: 25px;
-}
-
-
-.total-liquid-section {
-    margin-bottom: 30px;
-}
-
-.total-label {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-white);
-    display: block;
-    margin-bottom: 10px;
-}
-
-.total-value {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-white);
-    margin-bottom: 8px;
-}
-
-.disclaimer-text {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 
+.discount-value {
+    color: #ff5252;
+}
 
-.btn-launch {
+.hr {
+    border: none;
+    border-top: 1px solid var(--border-purple);
+}
+
+.total.final {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #4caf50; 
+}
+
+.btn-finalize {
     background-color: var(--purple-main);
     color: white;
     border: none;
     width: 100%;
-    padding: 15px;
-    font-size: 0.95rem;
+    padding: 14px;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
@@ -245,10 +258,10 @@ input::placeholder {
     transition: background 0.2s, transform 0.1s;
 }
 
-.btn-launch:hover {
+.btn-finalize:hover {
     background-color: var(--purple-hover);
 }
 
-.btn-launch:active {
+.btn-finalize:active {
     transform: scale(0.99);
 }
