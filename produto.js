@@ -1,13 +1,12 @@
 const api = "http://localhost:5191/api/Produto";
-const FormProduto = document.getElementById("formProduto");
-const apiURL = "https://localhost:7197/api/Produto";
-const divProdutos = document.getElementById("Produtos");
+const FormProduto = document.getElementById("form-group");
+const divProdutos = document.getElementById("drawer-produto");
 
 async function buscarProdutos() {
 
   try {
 
-    const resposta = await fetch(apiURL);
+    const resposta = await fetch(api);
 
     if (!resposta.ok) {
       throw new Error(`Erro HTTP: ${resposta.status}`);
@@ -71,7 +70,7 @@ async function cadastrarProduto(event) {
 
   try {
 
-    const resposta = await fetch(apiURL, {
+    const resposta = await fetch(api, {
 
       method: "POST",
 
@@ -120,7 +119,7 @@ async function deletarProduto(id) {
 
   try {
 
-    const resposta = await fetch(`${apiURL}/${id}`, {
+    const resposta = await fetch(`${api}/${id}`, {
 
       method: "DELETE",
 
@@ -139,7 +138,3 @@ async function deletarProduto(id) {
   }
 
 }
-
-FormProduto.addEventListener("submit", cadastrarProduto);
-
-buscarProdutos();

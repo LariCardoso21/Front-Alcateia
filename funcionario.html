@@ -40,7 +40,7 @@
                         <th style="text-align: center;">AÇÕES</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabela-funcionarios-body">
                     <tr>
                         <td>
                             <div class="employee-cell">
@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-
+   
     <script>
         function abrirDetalhesFunc(nome, cpf, cargo, salario, telefone, cidade) {
             document.getElementById('func-nome').value = nome;
@@ -166,6 +166,8 @@
             fecharDetalhesFunc();
         }
     </script>
-
+     
+     <script type="module" src="funcionario.js"></script>
+    
 </body>
 </html>
