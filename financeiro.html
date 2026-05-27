@@ -1,151 +1,132 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Relatórios Financeiros</title>
-
-  <link rel="stylesheet" href="financeiro.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios Financeiros</title>
+    <link rel="stylesheet" href="FInanceiro.css">
 </head>
-
 <body>
 
-  <div class="layout">
-
     <aside class="sidebar">
-
-      <div class="logo">
-        <i class="fa-regular fa-user"></i>
-      </div>
-
-      <nav>
-        <ul>
-          <li><a href="funcionario.html">Cliente</a></li>
-          <li><a href="listaprod.html">Produtos</a></li>
-          <li><a href="controleesto.html">Controle de Estoque</a></li>
-          <li><a href="funcionario.html">Funcionarios</a></li>
-          <li><a href="folhapag.html">Relatórios</a></li>
-          <li><a href="controleesto.html">Vendas</a></li>
-          <li class="active"><a href="financeiro.html">Financeiro</a></li>
-          
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li class="active"><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+           
         </ul>
-      </nav>
-
     </aside>
 
-    <main class="main">
-
-      <header class="header">
-        <h1>Relatórios Financeiros</h1>
-      </header>
-
-      <div class="content">
-
-        <div class="left">
-
-          <div class="card">
-            <h3>Entradas e Saídas</h3>
-
-            <div class="row">
-              <div>
-                <label>Entradas</label>
-                <input type="text" value="R$ 25.000,00">
-              </div>
-
-              <div>
-                <label>Saídas</label>
-                <input type="text" value="R$ 5.000,00">
-              </div>
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Relatórios Financeiros</h1>
+                <p class="subtitle">Acompanhe o fluxo de caixa, registre movimentações e verifique o saldo disponível.</p>
             </div>
-          </div>
-
-          <div class="card">
-            <h3>Movimentações</h3>
-
-            <div class="row">
-              <div>
-                <label>Data</label>
-                <input type="text" value="15/03/2026">
-              </div>
-
-              <div>
-                <label>Tipo</label>
-                <input type="text" value="Saída">
-              </div>
-            </div>
-
-            <label>Descrição</label>
-            <input type="text" value="Pagamento funcionário">
-
-            <label>Valor</label>
-            <input type="text" value="R$ 3.500,00">
-          </div>
-
-          <div class="card">
-            <h3>Informações Gerais</h3>
-
-            <div class="row">
-              <div>
-                <label>Pedidos Pendentes</label>
-                <input type="text" value="+50">
-              </div>
-
-              <div>
-                <label>Estoque Baixo</label>
-                <input type="text" value="5 itens">
-              </div>
-            </div>
-
-            <label>Contas a Pagar</label>
-            <input type="text" value="R$ 2.000,00">
-          </div>
-
         </div>
 
-        <div class="right">
+        <div class="financeiro-grid">
+            
+            <div class="column">
+                
+                <div class="financeiro-section">
+                    <h3>Entradas e Saídas</h3>
+                    <div class="input-row-2">
+                        <div class="form-group">
+                            <label for="total-entradas-val">Entradas (Mês)</label>
+                            <input type="text" id="total-entradas-val" value="R$ 25.000,00" readonly class="readonly-green">
+                        </div>
+                        <div class="form-group">
+                            <label for="total-saidas-val">Saídas (Mês)</label>
+                            <input type="text" id="total-saidas-val" value="R$ 5.000,00" readonly class="readonly-red">
+                        </div>
+                    </div>
+                </div>
 
-          <div class="card resumo">
-            <h3>Resumo Financeiro</h3>
+                <div class="financeiro-section">
+                    <h3>Registrar Movimentação</h3>
+                    <form>
+                        <div class="input-row-2">
+                            <div class="form-group">
+                                <label for="mov-data">Data</label>
+                                <input type="text" id="mov-data" placeholder="15/03/2026">
+                            </div>
+                            <div class="form-group">
+                                <label for="mov-tipo">Tipo</label>
+                                <select id="mov-tipo">
+                                    <option value="saida">Saída (Despesa)</option>
+                                    <option value="entrada">Entrada (Receita)</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <p>Total Entradas:
-              <span class="green">R$ 25.000,00</span>
-            </p>
+                        <div class="form-group">
+                            <label for="mov-desc">Descrição</label>
+                            <input type="text" id="mov-desc" placeholder="Ex: Pagamento funcionário">
+                        </div>
 
-            <p>Total Saídas:
-              <span class="negativo">-R$ 5.000,00</span>
-            </p>
-          </div>
+                        <div class="form-group">
+                            <label for="mov-valor">Valor</label>
+                            <input type="text" id="mov-valor" placeholder="R$ 3.500,00">
+                        </div>
+                    </form>
+                </div>
 
-          <div class="card total">
-            <h2>Saldo Atual</h2>
+                <div class="financeiro-section">
+                    <h3>Informações Gerais</h3>
+                    <div class="input-row-2">
+                        <div class="form-group">
+                            <label for="pedidos-pend">Pedidos Pendentes</label>
+                            <input type="text" id="pedidos-pend" value="18" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="est-baixo">Itens com Estoque Baixo</label>
+                            <input type="text" id="est-baixo" value="5 itens" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contas-pagar">Contas a Pagar Próximas</label>
+                        <input type="text" id="contas-pagar" value="R$ 3.000,00" readonly>
+                    </div>
+                </div>
 
-            <span class="green">R$ 20.000,00</span>
+            </div>
 
-            <small>valor disponível em caixa</small>
-          </div>
+            <div class="sticky-balance-container">
+                <div class="balance-card">
+                    <h3>Resumo Financeiro</h3>
+                    
+                    <div class="balance-rows">
+                        <div class="balance-row">
+                            <span>Total Entradas:</span>
+                            <span class="txt-green">R$ 25.000,00</span>
+                        </div>
+                        <div class="balance-row">
+                            <span>Total Saídas:</span>
+                            <span class="txt-red">- R$ 5.000,00</span>
+                        </div>
+                    </div>
 
-          <form action="folhapag.html">
-            <button class="btn">
-              Ir para folha de pagamento
-            </button>
-          </form>
+                    <hr class="hr">
+
+                    <div class="current-balance-section">
+                        <span class="balance-label">Saldo Atual</span>
+                        <div class="balance-value">R$ 20.000,00</div>
+                        <p class="balance-disclaimer">Valor líquido disponível em caixa</p>
+                    </div>
+                        
+                 <button type="button" class="btn-action-payroll" onclick="window.location.href='FolhaPagamente.html'">Ir para folha de pagamento</button>
+                    
+                </div>
+            </div>
 
         </div>
-
-      </div>
-
     </main>
-
-  </div>
 
 </body>
 </html>
