@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcateia - Nova Venda</title>
+    <link rel="stylesheet" href="novaVenda.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li><a href="Financeiro.html">Relatórios</a></li>
+            <li class="active"><a href="#">Vendas</a></li>
+           
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Registrar Nova Venda</h1>
+                <p class="subtitle">Abra um novo pedido preenchendo os dados do cliente e produtos abaixo.</p>
+            </div>
+        </div>
+
+        <div class="venda">
+            
+            <div class="container">
+                <form>
+                    <div class="form-section">
+                        <h3>1. Dados do Cliente</h3>
+                        <div class="form-group">
+                            <label for="cliente">Selecionar Cliente</label>
+                            <select id="cliente">
+                                <option value="" disabled selected>Escolha um cliente cadastrado...</option>
+                                <option value="1">Carlos Eduardo M.</option>
+                                <option value="2">Amanda Silva Costa</option>
+                                <option value="3">Roberto de Souza</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>2. Adicionar Itens</h3>
+                        <div class="product-row">
+                            <div class="form-group flex-3">
+                                <label for="produto">Produto</label>
+                                <select id="produto">
+                                    <option value="" disabled selected>Selecione o produto...</option>
+                                    <option value="p1">Mouse Gamer RGB (R$ 150,00)</option>
+                                    <option value="p2">Teclado Mecânico (R$ 350,00)</option>
+                                    <option value="p3">Monitor 24' Full HD (R$ 900,00)</option>
+                                </select>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label for="quantidade">Qtd.</label>
+                                <input type="number" id="quantidade" min="1" value="1">
+                            </div>
+                            <button type="button" class="btn-add-item">Inserir</button>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>3. Fechamento e Pagamento</h3>
+                        <div class="payment-grid">
+                            <div class="form-group">
+                                <label for="forma-pagamento">Forma de Pagamento</label>
+                                <select id="forma-pagamento">
+                                    <option value="pix">Pix</option>
+                                    <option value="credito">Cartão de Crédito</option>
+                                    <option value="debito">Cartão de Débito</option>
+                                    <option value="boleto">Boleto Bancário</option>
+                                    <option value="dinheiro">Dinheiro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="desconto">Desconto (R$)</label>
+                                <input type="text" id="desconto" placeholder="0,00">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="checkout-container">
+                <h3>Resumo do Pedido</h3>
+                
+                <ul class="cart-list">
+                    <li class="cart-item">
+                        <div>
+                            <p class="item-name">Mouse Gamer RGB</p>
+                            <small class="item-meta">1x R$ 150,00</small>
+                        </div>
+                        <span class="item-price">R$ 150,00</span>
+                    </li>
+                    <li class="cart-item">
+                        <div>
+                            <p class="item-name">Teclado Mecânico</p>
+                            <small class="item-meta">1x R$ 350,00</small>
+                        </div>
+                        <span class="item-price">R$ 350,00</span>
+                    </li>
+                </ul>
+
+                <div class="totals">
+                    <div class="total">
+                        <span>Subtotal:</span>
+                        <span>R$ 500,00</span>
+                    </div>
+                    <div class="total">
+                        <span>Desconto:</span>
+                        <span class="discount-value">- R$ 0,00</span>
+                    </div>
+                    <hr class="hr">
+                    <div class="total final">
+                        <span>Total Geral:</span>
+                        <span>R$ 500,00</span>
+                    </div>
+                </div>
+                    <form action="Vendas.html">
+                <button type="submit" class="btn-finalize">Finalizar Venda</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

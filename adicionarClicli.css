@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-dark: #120e2e;         
+    --bg-card: #1a153b;         
+    --border-purple: #2a225c;   
+    --purple-main: #7c4dff;     
+    --purple-hover: #651fff;    
+    --text-white: #ffffff;      
+    --text-muted: #a5a1b8;     
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #1a153b;
+    padding: 30px 20px;
+    border-right: 1px solid #2a225c;
+}
+
+.logo-area {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #b39ddb;
+    margin-bottom: 40px;
+}
+
+.nav-links { list-style: none; }
+.nav-links li { margin-bottom: 8px; }
+.nav-links a {
+    color: #a5a1b8;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 8px;
+}
+.nav-links li.active a, .nav-links a:hover {
+    background-color: #312763;
+    color: #fff;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.header-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-page h1 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.header-page .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: var(--purple-main);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--purple-hover);
+}
+
+.content-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid var(--border-purple);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-dark: #120e2e;         
+    --bg-card: #1a153b;        
+    --border-purple: #2a225c;   
+    --purple-main: #7c4dff;   
+    --purple-hover: #651fff;    
+    --purple-glow: rgba(124, 77, 255, 0.4); 
+    --text-white: #ffffff;      
+    --text-muted: #a5a1b8;      
+    --bg-input: #130f26;    
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    min-height: 100vh;
+}
+
+.container{
+    width: 900px;
+    padding: 50px;
+    margin-left: 350px;
+}
+
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-purple);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 15px rgba(124, 77, 255, 0.05);
+    
+    width: 100%;          
+    max-width: 1000px;  
+
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 6px;
+}
+
+.header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-white);
+    padding-left: 2px;
+}
+
+.form-group input {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-purple);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: var(--text-white);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--purple-main);
+    box-shadow: 0 0 8px var(--purple-glow);
+}
+
+.form-group input::placeholder {
+    color: #5d5875; 
+}
+
+.btn-submit {
+    background-color: var(--purple-main);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: var(--purple-hover);
+    box-shadow: 0 6px 16px rgba(101, 31, 255, 0.4);
+    transform: translateY(-1px); 
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}

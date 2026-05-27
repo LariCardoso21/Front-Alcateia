@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Funcionários e Folha</title>
+    <link rel="stylesheet" href="FolhaPagamento.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="Produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li ><a href="funcionario.html">Funcionários</a></li>
+            <li class="active"><a href="#">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+            
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-actions">
+            <div>
+                <h1>Calculadora de Folha e Registro de Funcionário</h1>
+                <p class="subtitle">Insira os dados cadastrais, proventos e descontos para cálculo automático.</p>
+            </div>
+        </div>
+
+        <div class="folha-grid">
+            
+            <div class="column">
+                
+                <div class="form-section">
+                    <h3>Identificação do Funcionário</h3>
+                    <div class="form-group">
+                        <label for="nome-func">Nome do Funcionário</label>
+                        <input type="text" id="nome-func" placeholder="Nome completo">
+                    </div>
+                    
+                    <div class="input-2">
+                        <div class="form-group">
+                            <label for="depto">Departamento</label>
+                            <input type="text" id="depto" placeholder="Ex: Comercial">
+                        </div>
+                        <div class="form-group">
+                            <label for="funcao">Função</label>
+                            <input type="text" id="funcao" placeholder="Ex: Vendedor">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referencia">Referência (Mês/Ano)</label>
+                        <input type="text" id="referencia" placeholder="Ex: 05/2026">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Proventos</h3>
+                    <div class="form-group">
+                        <label for="salario-base">Salário Base</label>
+                        <input type="text" id="salario-base" placeholder="R$ 0,00">
+                    </div>
+                    <div class="form-group">
+                        <label for="outros-proventos">Outros (Horas extras, bônus)</label>
+                        <input type="text" id="outros-proventos" placeholder="R$ 0,00">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Descontos</h3>
+                    <div class="input-2">
+                        <div class="form-group">
+                            <label for="inss">INSS</label>
+                            <input type="text" id="inss" placeholder="R$ 0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="irrf">IRRF</label>
+                            <input type="text" id="irrf" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+                    <div class="input-2">
+                        <div class="form-group">
+                            <label for="beneficios">Benefícios (VT/VR)</label>
+                            <input type="text" id="beneficios" placeholder="R$ 0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="faltas">Outros / Faltas</label>
+                            <input type="text" id="faltas" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container">
+                <div class="card">
+                    <h3>Resumo da Folha</h3>
+                    
+                    <div class="totais">
+                        <div class="total">
+                            <span>Total Proventos:</span>
+                            <span class="value-positive">R$ 0,00</span>
+                        </div>
+                        <div class="total">
+                            <span>Total Descontos:</span>
+                            <span class="value-negative">- R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <div class="total-liquid-section">
+                        <span class="total-label">Total Líquido:</span>
+                        <div class="total-value">R$ 0,00</div>
+                        <p class="disclaimer-text">Valor a ser lançado no contas a pagar</p>
+                    </div>
+                        <form action="Financeiro.html">
+                    <button type="submit" class="btn-launch">Lançar despesas no financeiro</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #120e2e;
+    color: #fff;
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #1a153b;
+    padding: 30px 20px;
+    border-right: 1px solid #2a225c;
+}
+
+.logo-area {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #b39ddb;
+    margin-bottom: 40px;
+}
+
+.nav-links { list-style: none; }
+.nav-links li { margin-bottom: 8px; }
+.nav-links a {
+    color: #a5a1b8;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 8px;
+}
+.nav-links li.active a, .nav-links a:hover {
+    background-color: #312763;
+    color: #fff;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.subtitle {
+    color: #a5a1b8;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.btn-add-product {
+    background-color: #7c4dff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.table-container {
+    background-color: #1a153b;
+    border: 1px solid #2a225c;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    color: #a5a1b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1px solid #2a225c;
+}
+
+.data-table td {
+    padding: 16px;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(42, 34, 92, 0.4);
+    color: white;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 180px; 
+}
+
+.btn-detail-arrow {
+    background: none;
+    border: none;
+    color: #a5a1b8;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-detail-arrow:hover {
+    color: #7c4dff;
+    background-color: rgba(124, 77, 255, 0.1);
+    transform: translateX(3px);
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0 8px;
+}
+.btn-action.edit { color: #b39ddb; }
+.btn-action.delete { color: #ff5252; }
+
+
+.product-drawer {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 400px;
+    height: 100vh;
+    background-color: #161135;
+    border-left: 2px solid #2a225c;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 999;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-drawer.active {
+    right: 0; 
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a225c;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+
+.drawer-header h3 {
+    font-size: 1.2rem;
+    color: #b39ddb;
+}
+
+.btn-close-drawer {
+    background: none;
+    border: none;
+    color: #a5a1b8;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+}
+.btn-close-drawer:hover { color: #ff5252; }
+
+.drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-group-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.info-group label {
+    font-size: 0.8rem;
+    color: #a5a1b8;
+    font-weight: 500;
+}
+
+.info-group input, .info-group textarea {
+    background-color: #100c26;
+    border: 1px solid #2a225c;
+    border-radius: 6px;
+    padding: 12px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+    resize: none; 
+}
+
+.info-group input:focus, .info-group textarea:focus {
+    border-color: #7c4dff;
+}
+
+.drawer-actions {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.btn-save-drawer {
+    width: 100%;
+    background-color: #7c4dff;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.btn-save-drawer:hover {
+    background-color: #651fff;
+}
