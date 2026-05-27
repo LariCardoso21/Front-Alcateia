@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Relatórios Financeiros</title>
+
+  <link rel="stylesheet" href="financeiro.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+
+      <div class="logo">
+        <i class="fa-regular fa-user"></i>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="funcionario.html">Cliente</a></li>
+          <li><a href="listaprod.html">Produtos</a></li>
+          <li><a href="controleesto.html">Controle de Estoque</a></li>
+          <li><a href="funcionario.html">Funcionarios</a></li>
+          <li><a href="folhapag.html">Relatórios</a></li>
+          <li><a href="controleesto.html">Vendas</a></li>
+          <li class="active"><a href="financeiro.html">Financeiro</a></li>
+          
+        </ul>
+      </nav>
+
+    </aside>
+
+    <main class="main">
+
+      <header class="header">
+        <h1>Relatórios Financeiros</h1>
+      </header>
+
+      <div class="content">
+
+        <div class="left">
+
+          <div class="card">
+            <h3>Entradas e Saídas</h3>
+
+            <div class="row">
+              <div>
+                <label>Entradas</label>
+                <input type="text" value="R$ 25.000,00">
+              </div>
+
+              <div>
+                <label>Saídas</label>
+                <input type="text" value="R$ 5.000,00">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Movimentações</h3>
+
+            <div class="row">
+              <div>
+                <label>Data</label>
+                <input type="text" value="15/03/2026">
+              </div>
+
+              <div>
+                <label>Tipo</label>
+                <input type="text" value="Saída">
+              </div>
+            </div>
+
+            <label>Descrição</label>
+            <input type="text" value="Pagamento funcionário">
+
+            <label>Valor</label>
+            <input type="text" value="R$ 3.500,00">
+          </div>
+
+          <div class="card">
+            <h3>Informações Gerais</h3>
+
+            <div class="row">
+              <div>
+                <label>Pedidos Pendentes</label>
+                <input type="text" value="+50">
+              </div>
+
+              <div>
+                <label>Estoque Baixo</label>
+                <input type="text" value="5 itens">
+              </div>
+            </div>
+
+            <label>Contas a Pagar</label>
+            <input type="text" value="R$ 2.000,00">
+          </div>
+
+        </div>
+
+        <div class="right">
+
+          <div class="card resumo">
+            <h3>Resumo Financeiro</h3>
+
+            <p>Total Entradas:
+              <span class="green">R$ 25.000,00</span>
+            </p>
+
+            <p>Total Saídas:
+              <span class="negativo">-R$ 5.000,00</span>
+            </p>
+          </div>
+
+          <div class="card total">
+            <h2>Saldo Atual</h2>
+
+            <span class="green">R$ 20.000,00</span>
+
+            <small>valor disponível em caixa</small>
+          </div>
+
+          <form action="folhapag.html">
+            <button class="btn">
+              Ir para folha de pagamento
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
