@@ -1,62 +1,281 @@
-import { apiFetch } from './api.js';
-const ENDPOINT_FUNC = "http://localhost:5191/api/Funcionario"; 
 
-document.addEventListener('DOMContentLoaded', () => {
-   
-    if (document.getElementById('tabela-funcionarios-body')) {
-        carregarFuncionarios();
-    }
+const BASE_URL = 'http://localhost:5191/api';
+const ENDPOINT = 'Funcionario';
 
-    if (document.getElementById('form-cadastro-funcionario')) {
-        configurarFormCadastro();
-    }
-});
+let funcionarioSelecionadoId = null;
 
-async function carregarFuncionarios() {
-    const corpoTabela = document.getElementById('tabela-funcionarios-body');
-    if (!corpoTabela) return;
+async function obterTodosFuncionarios() {
 
     try {
-       
-        const funcionarios = await apiFetch('/Funcionario', 'GET'); 
-        
-        corpoTabela.innerHTML = ''; 
 
-        if (funcionarios.length === 0) {
-            corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align:center;">Nenhum funcionário cadastrado.</td></tr>`;
-            return;
+        const response = await fetch(`${BASE_URL}/${ENDPOINT}`);
+
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
         }
 
-        funcionarios.forEach(func => {
+        const funcionarios = await response.json();
+
+        console.log(funcionarios);
+
+        const tbody = document.getElementById(
+            'tabela-funcionarios-body'
+        );
+
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        funcionarios.forEach(funcionario => {
+
             const tr = document.createElement('tr');
+
             tr.innerHTML = `
+            
                 <td>
                     <div class="employee-cell">
-                        <span>${func.nome}</span>
-                        <button type="button" class="btn-detail-arrow" title="Ver detalhes" 
-                            onclick="abrirDetalhesFunc('${func.id}', '${func.nome}', '${func.cpf}', '${func.cargo || ''}', '${func.salario || 0}', '${func.telefone}', '${func.cidade}')">
+
+                        <span>${funcionario.nome}</span>
+
+                        <button
+                            type="button"
+                            class="btn-detail-arrow"
+                            title="Ver detalhes"
+
+                            onclick="abrirDetalhesFunc(
+                                ${funcionario.id},
+                                '${funcionario.nome}',
+                                '${funcionario.Cpf}',
+                                '${funcionario.cargo}',
+                                '${funcionario.Salario}',
+                                '${funcionario.TelefoneFuncionario}',
+                                '${funcionario.cidade}'
+                            )"
+                        >
                             &#10142;
                         </button>
+
                     </div>
                 </td>
-                <td>${func.email}</td>
-                <td>${func.telefone}</td>
-                <td style="text-align: center;">
-                    <button type="button" class="btn-action edit" onclick="abrirDetalhesFunc('${func.id}', '${func.nome}', '${func.cpf}', '${func.cargo || ''}', '${func.salario || 0}', '${func.telefone}', '${func.cidade}')">Editar</button>
-                    <button type="button" class="btn-action delete" onclick="excluirFuncionario('${func.id}')">Excluir</button>
+
+                <td>${funcionario.nome}@gmail.com</td>
+
+                <td>${funcionario.TelefoneFuncionario}</td>
+
+                <td style="text-align:center;">
+
+                    <button
+                        type="button"
+                        class="btn-action edit"
+
+                        onclick="abrirDetalhesFunc(
+                            ${funcionario.id},
+                            '${funcionario.nome}',
+                            '${funcionario.Cpf}',
+                            '${funcionario.cargo}',
+                            '${funcionario.Salario}',
+                            '${funcionario.TelefoneFuncionario}',
+                            '${funcionario.cidade}'
+                        )"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-action delete"
+                        onclick="excluirFuncionario(${funcionario.id})"
+                    >
+                        Excluir
+                    </button>
+
                 </td>
             `;
-            corpoTabela.appendChild(tr);
+
+            tbody.appendChild(tr);
+
         });
+
     } catch (error) {
-        alert('Falha ao carregar os funcionários: ' + error.message);
+
+        console.error(error);
+
+        alert('Erro ao carregar funcionários');
     }
 }
 
-window.abrirDetalhesFunc = function(id, nome, cpf, cargo, salario, telefone, cidade) {
- 
-    const drawer = document.getElementById('drawer-funcionario');
-    drawer.dataset.id = id;
+async function cadastrarFuncionario(event) {
+
+    event.preventDefault();
+
+    const payload = {
+
+        nome: document.getElementById('nome').value,
+
+        Cpf: document.getElementById('cpf').value,
+
+        TelefoneFuncionario:
+            document.getElementById('telefone').value,
+
+        Cidade:
+            document.getElementById('cidade').value,
+
+        cargo: 'Funcionário',
+
+        Salario: 0
+    };
+
+    try {
+
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT}`,
+            {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(payload)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao cadastrar funcionário'
+            );
+        }
+
+        alert('Funcionário cadastrado com sucesso!');
+
+        window.location.href = 'funcionario.html';
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+    }
+}
+
+async function salvarFuncionario() {
+
+    const payload = {
+
+        id: funcionarioSelecionadoId,
+
+        nome:
+            document.getElementById('func-nome').value,
+
+        Cpf:
+            document.getElementById('func-cpf').value,
+
+        cargo:
+            document.getElementById('func-cargo').value,
+
+        Salario: parseFloat(
+            document.getElementById('func-salario')
+                .value
+                .replace('R$', '')
+                .replace('.', '')
+                .replace(',', '.')
+        ),
+
+        TelefoneFuncionario:
+            document.getElementById('func-telefone')
+                .value,
+
+        cidade:
+            document.getElementById('func-cidade')
+                .value,
+
+        DataNasc: new Date().toISOString()
+    };
+
+    try {
+
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT}/${funcionarioSelecionadoId}`,
+            {
+
+                method: 'PUT',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(payload)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao atualizar funcionário'
+            );
+        }
+
+        alert('Funcionário atualizado com sucesso!');
+
+        fecharDetalhesFunc();
+
+        obterTodosFuncionarios();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+    }
+}
+
+async function excluirFuncionario(id) {
+
+    const confirmar = confirm(
+        'Deseja excluir este funcionário?'
+    );
+
+    if (!confirmar) return;
+
+    try {
+
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT}/${id}`,
+            {
+                method: 'DELETE'
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao excluir funcionário'
+            );
+        }
+
+        alert('Funcionário excluído com sucesso!');
+
+        obterTodosFuncionarios();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+    }
+}
+
+
+function abrirDetalhesFunc(
+    id,
+    nome,
+    cpf,
+    cargo,
+    salario,
+    telefone,
+    cidade
+) {
+
+    funcionarioSelecionadoId = id;
 
     document.getElementById('func-nome').value = nome;
     document.getElementById('func-cpf').value = cpf;
@@ -65,73 +284,39 @@ window.abrirDetalhesFunc = function(id, nome, cpf, cargo, salario, telefone, cid
     document.getElementById('func-telefone').value = telefone;
     document.getElementById('func-cidade').value = cidade;
 
-    drawer.classList.add('active');
+    document
+        .getElementById('drawer-funcionario')
+        .classList.add('active');
 }
 
-window.fecharDetalhesFunc = function() {
-    document.getElementById('drawer-funcionario').classList.remove('active');
+
+function fecharDetalhesFunc() {
+
+    document
+        .getElementById('drawer-funcionario')
+        .classList.remove('active');
 }
 
-window.salvarFuncionario = async function() {
-    const drawer = document.getElementById('drawer-funcionario');
-    const id = drawer.dataset.id;
 
-    const payload = {
-        id: id,
-        nome: document.getElementById('func-nome').value,
-        cpf: document.getElementById('func-cpf').value,
-        cargo: document.getElementById('func-cargo').value,
-        salario: parseFloat(document.getElementById('func-salario').value) || 0,
-        telefone: document.getElementById('func-telefone').value,
-        cidade: document.getElementById('func-cidade').value
-    };
+window.abrirDetalhesFunc = abrirDetalhesFunc;
+window.fecharDetalhesFunc = fecharDetalhesFunc;
+window.salvarFuncionario = salvarFuncionario;
+window.excluirFuncionario = excluirFuncionario;
 
-    try {
-        await apiFetch(`/Funcionario/${id}`, 'PUT', payload);
-        alert("Dados do funcionário atualizados com sucesso!");
-        fecharDetalhesFunc();
-        carregarFuncionarios();
-    } catch (error) {
-        alert("Erro ao salvar alterações: " + error.message);
+document.addEventListener('DOMContentLoaded', () => {
+
+    obterTodosFuncionarios();
+
+    const form = document.getElementById(
+        'form-cadastro-funcionario'
+    );
+
+    if (form) {
+
+        form.addEventListener(
+            'submit',
+            cadastrarFuncionario
+        );
     }
-}
+});
 
-
-window.excluirFuncionario = async function(id) {
-    if (confirm('Tem certeza de que deseja excluir este funcionário?')) {
-        try {
-          await apiFetch(`/Funcionario/${id}`, 'DELETE');
-            alert('Funcionário excluído com sucesso!');
-            carregarFuncionarios(); 
-        } catch (error) {
-            alert('Erro ao excluir funcionário: ' + error.message);
-        }
-    }
-}
-
-
-function configurarFormCadastro() {
-    const form = document.getElementById('form-cadastro-funcionario');
-    
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const payload = {
-            nome: document.getElementById('nome').value,
-            cpf: document.getElementById('cpf').value,
-            email: document.getElementById('email').value,
-            telefone: document.getElementById('telefone').value,
-            endereco: document.getElementById('endereco').value,
-            cidade: document.getElementById('cidade').value
-        };
-
-        try {
-           await apiFetch('/Funcionario', 'POST', payload);
-            alert('Funcionário cadastrado com sucesso!');
-          
-            window.location.href = 'funcionario.html';
-        } catch (error) {
-            alert('Erro ao cadastrar funcionário: ' + error.message);
-        }
-    });
-}
