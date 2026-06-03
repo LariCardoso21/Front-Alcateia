@@ -1,171 +1,243 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alcateia - Funcionários</title>
+
     <link rel="stylesheet" href="funcionario.css">
 </head>
+
 <body style="overflow-x: hidden;">
 
     <aside class="sidebar">
-        <div class="logo-area">Alcateia</div>
+
+        <div class="logo-area">
+            Alcateia
+        </div>
+
         <ul class="nav-links">
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="clientes.html">Clientes</a></li>
-            <li><a href="produtos.html">Produtos</a></li>
-            <li><a href="estoque.html">Estoque</a></li>
-            <li class="active"><a href="funcionario.html">Funcionários</a></li>
-            <li><a href="Financeiro.html">Relatórios</a></li>
-            <li><a href="vendas.html">Vendas</a></li>
+
+            <li>
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="clientes.html">Clientes</a>
+            </li>
+
+            <li>
+                <a href="produtos.html">Produtos</a>
+            </li>
+
+            <li>
+                <a href="estoque.html">Estoque</a>
+            </li>
+
+            <li class="active">
+                <a href="funcionario.html">Funcionários</a>
+            </li>
+
+            <li>
+                <a href="Financeiro.html">Relatórios</a>
+            </li>
+
+            <li>
+                <a href="vendas.html">Vendas</a>
+            </li>
+
         </ul>
+
     </aside>
 
+
     <main class="main-content">
+
         <div class="header-actions">
+
             <div>
+
                 <h1>Funcionários</h1>
-                <p class="subtitle">Descrição e Cadastro de Funcionários</p>
+
+                <p class="subtitle">
+                    Descrição e Cadastro de Funcionários
+                </p>
+
             </div>
-            <button class="btn-add-employee" onclick="window.location.href='adicionarfun.html'">+ Adicionar Funcionario</button>
+
+            <button
+                class="btn-add-employee"
+                onclick="window.location.href='adicionarfun.html'"
+            >
+                + Adicionar Funcionário
+            </button>
+
         </div>
+
 
         <div class="table-container">
+
             <table class="data-table">
+
                 <thead>
+
                     <tr>
+
                         <th>FUNCIONÁRIO</th>
+
                         <th>EMAIL</th>
+
                         <th>TELEFONE</th>
-                        <th style="text-align: center;">AÇÕES</th>
+
+                        <th style="text-align:center;">
+                            AÇÕES
+                        </th>
+
                     </tr>
+
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="employee-cell">
-                                <span>Funcionario1</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesFunc('Funcionario 1', '000.000.000-11', 'Gerente de Vendas', 'R$ 4.500,00', '14 99999-9999', 'Marília - SP')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Funcionario1@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-cell">
-                                <span>Funcionario2</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesFunc('Funcionario 2', '000.000.000-22', 'Analista de Suporte', 'R$ 2.800,00', '14 98888-8888', 'Marília - SP')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Funcionario2@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-cell">
-                                <span>Funcionario3</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesFunc('Funcionario 3', '000.000.000-33', 'Desenvolvedor', 'R$ 5.200,00', '14 97777-7777', 'São Paulo - SP')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Funcionario3@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-cell">
-                                <span>Funcionario4</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesFunc('Funcionario 4', '000.000.000-44', 'Auxiliar Administrativo', 'R$ 2.100,00', '14 96666-6666', 'Marília - SP')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Funcionario4@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
+
+
+                <tbody id="tabela-funcionarios-body">
+
                 </tbody>
+
             </table>
+
         </div>
+
     </main>
 
-    <div id="drawer-funcionario" class="employee-drawer">
+
+    <!-- DRAWER -->
+
+    <div
+        id="drawer-funcionario"
+        class="employee-drawer"
+    >
+
         <div class="drawer-header">
-            <h3>Detalhes do Funcionário</h3>
-            <button class="btn-close-drawer" onclick="fecharDetalhesFunc()">&times;</button>
+
+            <h3>
+                Detalhes do Funcionário
+            </h3>
+
+            <button
+                class="btn-close-drawer"
+                onclick="fecharDetalhesFunc()"
+            >
+                &times;
+            </button>
+
         </div>
-        
+
+
         <div class="drawer-body">
-            <div class="info-group">
-                <label>Nome Completo</label>
-                <input type="text" id="func-nome">
-            </div>
 
             <div class="info-group">
-                <label>CPF</label>
-                <input type="text" id="func-cpf">
+
+                <label>
+                    Nome Completo
+                </label>
+
+                <input
+                    type="text"
+                    id="func-nome"
+                >
+
             </div>
 
-            <div class="info-group">
-                <label>Cargo / Função</label>
-                <input type="text" id="func-cargo">
-            </div>
 
             <div class="info-group">
-                <label>Salário Base</label>
-                <input type="text" id="func-salario">
+
+                <label>
+                    CPF
+                </label>
+
+                <input
+                    type="text"
+                    id="func-cpf"
+                >
+
             </div>
 
-            <div class="info-group">
-                <label>Telefone / Contato</label>
-                <input type="text" id="func-telefone">
-            </div>
 
             <div class="info-group">
-                <label>Cidade / Estado</label>
-                <input type="text" id="func-cidade">
+
+                <label>
+                    Cargo / Função
+                </label>
+
+                <input
+                    type="text"
+                    id="func-cargo"
+                >
+
             </div>
+
+
+            <div class="info-group">
+
+                <label>
+                    Salário Base
+                </label>
+
+                <input
+                    type="text"
+                    id="func-salario"
+                >
+
+            </div>
+
+
+            <div class="info-group">
+
+                <label>
+                    Telefone / Contato
+                </label>
+
+                <input
+                    type="text"
+                    id="func-telefone"
+                >
+
+            </div>
+
+
+            <div class="info-group">
+
+                <label>
+                    Cidade / Estado
+                </label>
+
+                <input
+                    type="text"
+                    id="func-cidade"
+                >
+
+            </div>
+
 
             <div class="drawer-actions">
-                <button type="button" class="btn-save-drawer" onclick="salvarFuncionario()">Salvar Alterações</button>
+
+                <button
+                    type="button"
+                    class="btn-save-drawer"
+                    onclick="salvarFuncionario()"
+                >
+                    Salvar Alterações
+                </button>
+
             </div>
+
         </div>
+
     </div>
 
-    <script>
-        function abrirDetalhesFunc(nome, cpf, cargo, salario, telefone, cidade) {
-            document.getElementById('func-nome').value = nome;
-            document.getElementById('func-cpf').value = cpf;
-            document.getElementById('func-cargo').value = cargo;
-            document.getElementById('func-salario').value = salario;
-            document.getElementById('func-telefone').value = telefone;
-            document.getElementById('func-cidade').value = cidade;
 
-            document.getElementById('drawer-funcionario').classList.add('active');
-        }
-
-        function fecharDetalhesFunc() {
-            document.getElementById('drawer-funcionario').classList.remove('active');
-        }
-
-        function salvarFuncionario() {
-            alert("Dados do funcionário salvos com sucesso!");
-            fecharDetalhesFunc();
-        }
-    </script>
+    <script src="funcionario.js"></script>
 
 </body>
 </html>
+
