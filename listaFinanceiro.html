@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alcateia - Registros Financeiros</title>
+  <link rel="stylesheet" href="listaFinanceiro.css">
+</head>
+<body>
+
+   <aside class="sidebar">
+        <div class="logo-area">Alcateia</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+            <li><a href="funcionario.html">Funcionários</a></li>
+            <li class="active"><a href="Financeiro.html">Relatórios</a></li>
+            <li><a href="Vendas.html">Vendas</a></li>
+        </ul>
+    </aside>
+  <div class="content">
+    
+    <div class="header-container">
+      <div class="title-section">
+        <h1>Registros de Finanças e Folha</h1>
+        <p>Consulte o destino de todos os lançamentos, salários pagos e movimentações de caixa.</p>
+      </div>
+            <button type="button" class="btn-action-payroll" onclick="window.location.href='financeiro.html'">Voltar para Relátorios</button>
+
+    </div>
+
+    <div class="table-container">
+      <div class="table-title">Histórico Geral de Lançamentos</div>
+      
+      
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descrição / Colaborador</th>
+            <th>Data/Hora</th>
+            <th>Valor Total</th>
+            <th>Origem / Tipo</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-registros">
+          <tr>
+            <td class="id-col">#1028</td>
+            <td>Carlos Eduardo M. (Desenvolvedor)</td>
+            <td>29/05/2026 09:40</td>
+            <td class="text-saida">- R$ 5.500,00</td>
+            <td>Folha de Pagamento</td>
+            <td><span class="status-badge status-pago">Pago</span></td>
+          </tr>
+          <tr>
+            <td class="id-col">#1027</td>
+            <td>Amanda Silva Costa (Design)</td>
+            <td>29/05/2026 08:15</td>
+            <td class="text-saida">- R$ 3.500,00</td>
+            <td>Folha de Pagamento</td>
+            <td><span class="status-badge status-pago">Pago</span></td>
+          </tr>
+          <tr>
+            <td class="id-col">#1026</td>
+            <td>Entrada de Caixa Geral</td>
+            <td>28/05/2026 18:30</td>
+            <td class="text-entrada">+ R$ 25.000,00</td>
+            <td>Entrada (Mês)</td>
+            <td><span class="status-badge status-pago">Concluído</span></td>
+          </tr>
+          <tr>
+            <td class="id-col">#1025</td>
+            <td>Roberto de Souza (Infra)</td>
+            <td>28/05/2026 14:22</td>
+            <td class="text-saida">- R$ 5.000,00</td>
+            <td>Saída (Despesa)</td>
+            <td><span class="status-badge status-pendente">Pendente</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</body>
+</html>

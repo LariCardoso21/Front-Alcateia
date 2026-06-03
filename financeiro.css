@@ -243,6 +243,6 @@ input[readonly] {
     background-color: var(--purple-hover);
 }
 
-.btn-action-payroll:active {
+.btn-action-payroll2:active {
     transform: scale(0.99);
 }
