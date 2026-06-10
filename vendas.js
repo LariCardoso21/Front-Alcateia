@@ -1,132 +1,105 @@
+const API_URL = 'http://localhost:5191/api';
 
-const BASE_URL = 'http://localhost:5191/api';
-const ENDPOINT = 'Pedidovenda';
-
-
+let clientes = [];
+let produtos = [];
 let carrinho = [];
 
 
-async function apiFetch(endpoint, method = 'GET', data = null) {
 
-    const config = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
+// =========================
+// CARREGAR CLIENTES
+// =========================
 
-    if (data !== null) {
-        config.body = JSON.stringify(data);
-    }
+async function carregarClientes() {
 
-    try {
+    const selectCliente =
+        document.getElementById('cliente');
 
-        const response = await fetch(
-            `${BASE_URL}/${endpoint}`,
-            config
-        );
-
-        if (!response.ok) {
-
-            const erro = await response
-                .json()
-                .catch(() => ({}));
-
-            throw new Error(
-                erro.mensagem || `Erro HTTP: ${response.status}`
-            );
-        }
-
-        if (response.status === 204) {
-            return null;
-        }
-
-        return await response.json();
-
-    } catch (error) {
-
-        console.error('Erro na API:', error);
-
-        throw error;
-    }
-}
-
-async function carregarTabelaVendas() {
+    if (!selectCliente) return;
 
     try {
 
-        const vendas = await apiFetch(ENDPOINT, 'GET');
+        const response =
+            await fetch(`${API_URL}/Clientes`);
 
-        const corpoTabela = document.querySelector('tbody');
+        clientes = await response.json();
 
-        corpoTabela.innerHTML = '';
+        selectCliente.innerHTML =
+            '<option value="">Selecione um cliente...</option>';
 
-        vendas.forEach(venda => {
+        clientes.forEach((cliente, index) => {
 
-            const produtosTexto = venda.itens
-                .map(item =>
-                    `${item.quantidade}x ${item.nomeProduto}`
-                )
-                .join(', ');
-
-            let statusClasse = '';
-
-            if (venda.status === 'Pago') {
-                statusClasse = 'paid';
-            }
-            else if (venda.status === 'Pendente') {
-                statusClasse = 'pending';
-            }
-            else {
-                statusClasse = 'canceled';
-            }
-
-            const tr = document.createElement('tr');
-
-            tr.innerHTML = `
-                <td>#${venda.id}</td>
-                <td>${venda.clienteNome}</td>
-                <td>${produtosTexto}</td>
-                <td>${venda.dataVenda}</td>
-                <td class="price-value">
-                    R$ ${venda.valorTotal.toFixed(2)}
-                </td>
-                <td>${venda.formaPagamento}</td>
-                <td>
-                    <span class="status-badge ${statusClasse}">
-                        ${venda.status}
-                    </span>
-                </td>
+            selectCliente.innerHTML += `
+                <option value="${index + 1}">
+                    ${cliente.nome || cliente.Nome}
+                </option>
             `;
-
-            corpoTabela.appendChild(tr);
         });
 
-    } catch (error) {
+    } catch (erro) {
 
-        alert(
-            'Erro ao carregar vendas: ' + error.message
-        );
+        console.error(erro);
+
+        alert('Erro ao carregar clientes');
     }
 }
 
-function adicionarItemCarrinho() {
 
-    const produtoSelect =
+
+// =========================
+// CARREGAR PRODUTOS
+// =========================
+
+async function carregarProdutos() {
+
+    const selectProduto =
         document.getElementById('produto');
 
-    const quantidadeInput =
-        document.getElementById('quantidade');
+    if (!selectProduto) return;
 
-    const produtoId = produtoSelect.value;
+    try {
 
-    const produtoTexto =
-        produtoSelect.options[
-            produtoSelect.selectedIndex
-        ].text;
+        const response =
+            await fetch(`${API_URL}/Produto`);
+
+        produtos = await response.json();
+
+        selectProduto.innerHTML =
+            '<option value="">Selecione um produto...</option>';
+
+        produtos.forEach(produto => {
+
+            selectProduto.innerHTML += `
+                <option value="${produto.id}">
+                    ${produto.nome}
+                    (R$ ${produto.valorProduto})
+                </option>
+            `;
+        });
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert('Erro ao carregar produtos');
+    }
+}
+
+
+
+// =========================
+// INSERIR ITEM
+// =========================
+
+function inserirItem() {
+
+    const produtoId =
+        document.getElementById('produto').value;
 
     const quantidade =
-        parseInt(quantidadeInput.value);
+        parseInt(
+            document.getElementById('quantidade').value
+        );
 
     if (!produtoId) {
 
@@ -135,220 +108,378 @@ function adicionarItemCarrinho() {
         return;
     }
 
-    const nomeProduto =
-        produtoTexto.split('(R$')[0].trim();
+    const produto =
+        produtos.find(
+            p => p.id == produtoId
+        );
 
-    const precoTexto = produtoTexto
-        .split('(R$')[1]
-        .replace(')', '')
-        .replace('.', '')
-        .replace(',', '.');
+    if (!produto) {
 
-    const preco = parseFloat(precoTexto);
+        alert('Produto não encontrado');
 
-    const item = {
-        produtoId: produtoId,
-        nomeProduto: nomeProduto,
-        quantidade: quantidade,
-        precoUnitario: preco
-    };
+        return;
+    }
 
-    carrinho.push(item);
+    carrinho.push({
 
-    atualizarResumoPedido();
+        produtoId: produto.id,
+
+        nome: produto.nome,
+
+        preco:
+            produto.valorProduto || 0,
+
+        quantidade
+    });
+
+    atualizarResumo();
 }
 
-function atualizarResumoPedido() {
 
-    const listaCarrinho =
+
+// =========================
+// ATUALIZAR RESUMO
+// =========================
+
+function atualizarResumo() {
+
+    const lista =
         document.querySelector('.cart-list');
 
-    listaCarrinho.innerHTML = '';
+    if (!lista) return;
+
+    lista.innerHTML = '';
 
     let subtotal = 0;
 
     carrinho.forEach(item => {
 
         const totalItem =
-            item.quantidade * item.precoUnitario;
+            item.preco * item.quantidade;
 
         subtotal += totalItem;
 
-        const li = document.createElement('li');
+        lista.innerHTML += `
+            <li class="cart-item">
 
-        li.classList.add('cart-item');
+                <div>
 
-        li.innerHTML = `
-            <div>
-                <p class="item-name">
-                    ${item.nomeProduto}
-                </p>
+                    <p class="item-name">
+                        ${item.nome}
+                    </p>
 
-                <small class="item-meta">
-                    ${item.quantidade}x
-                    R$ ${item.precoUnitario.toFixed(2)}
-                </small>
-            </div>
+                    <small class="item-meta">
+                        ${item.quantidade}x
+                        R$ ${item.preco.toFixed(2)}
+                    </small>
 
-            <span class="item-price">
-                R$ ${totalItem.toFixed(2)}
-            </span>
+                </div>
+
+                <span class="item-price">
+                    R$ ${totalItem.toFixed(2)}
+                </span>
+
+            </li>
         `;
-
-        listaCarrinho.appendChild(li);
     });
 
-    const descontoInput =
-        document.getElementById('desconto');
+    const desconto =
+        parseFloat(
+            document.getElementById('desconto').value
+                .replace(',', '.')
+        ) || 0;
 
-    let desconto = parseFloat(
-        descontoInput.value.replace(',', '.')
-    );
+    const total =
+        subtotal - desconto;
 
-    if (isNaN(desconto)) {
-        desconto = 0;
-    }
+    document.querySelector('.totals').innerHTML = `
+        <div class="total">
+            <span>Subtotal:</span>
+            <span>R$ ${subtotal.toFixed(2)}</span>
+        </div>
 
-    const totalFinal = subtotal - desconto;
+        <div class="total">
+            <span>Desconto:</span>
 
-    const totais =
-        document.querySelectorAll(
-            '.total span:last-child'
-        );
+            <span class="discount-value">
+                - R$ ${desconto.toFixed(2)}
+            </span>
+        </div>
 
-    totais[0].textContent =
-        `R$ ${subtotal.toFixed(2)}`;
+        <hr class="hr">
 
-    totais[1].textContent =
-        `- R$ ${desconto.toFixed(2)}`;
+        <div class="total final">
 
-    totais[2].textContent =
-        `R$ ${totalFinal.toFixed(2)}`;
+            <span>Total Geral:</span>
+
+            <span>
+                R$ ${total.toFixed(2)}
+            </span>
+
+        </div>
+    `;
 }
 
-async function finalizarVenda() {
+
+
+// =========================
+// FINALIZAR VENDA
+// =========================
+
+async function finalizarVenda(event) {
+
+    event.preventDefault();
+
+    const clienteId =
+        parseInt(
+            document.getElementById('cliente').value
+        );
+
+    if (isNaN(clienteId)) {
+
+        alert('Selecione um cliente');
+
+        return;
+    }
+
+    if (carrinho.length === 0) {
+
+        alert('Adicione produtos');
+
+        return;
+    }
+
+    const payload = {
+
+        id: 0,
+
+        data:
+            new Date().toISOString(),
+
+        clienteId:
+            clienteId,
+
+        itens:
+            carrinho.map(item => ({
+
+                id: 0,
+
+                produtoId:
+                    item.produtoId,
+
+                precoUnitario:
+                    item.preco,
+
+                quantidade:
+                    item.quantidade,
+
+                pedidoVendaId: 0
+            }))
+    };
+
+    console.log(payload);
 
     try {
 
-        const clienteId =
-            document.getElementById('cliente').value;
+        const response =
+            await fetch(
+                `${API_URL}/PedidoVenda`,
+                {
 
-        const formaPagamento =
-            document.getElementById(
-                'forma-pagamento'
-            ).value;
+                    method: 'POST',
 
-        const descontoTexto =
-            document.getElementById(
-                'desconto'
-            ).value;
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
 
-        let desconto = parseFloat(
-            descontoTexto.replace(',', '.')
-        );
+                    body:
+                        JSON.stringify(payload)
+                }
+            );
 
-        if (isNaN(desconto)) {
-            desconto = 0;
+        if (!response.ok) {
+
+            const erro =
+                await response.text();
+
+            console.log(erro);
+
+            throw new Error(
+                'Erro ao finalizar venda'
+            );
         }
 
-        if (!clienteId) {
+        alert('Venda realizada com sucesso!');
 
-            alert('Selecione um cliente');
+        window.location.href =
+            'Vendas.html';
 
-            return;
-        }
+    } catch (erro) {
 
-        if (carrinho.length === 0) {
+        console.error(erro);
 
-            alert('Adicione produtos');
-
-            return;
-        }
-
-        const payload = {
-            data: data, 
-            clienteId: parseInt(clienteId),
-            itens: carrinho.map(item => ({
-                produtoId: item.produtoId,
-                quantidade: item.quantidade,
-                precoUnitario: item.precoUnitario
-            }))
-        };
-
-        await apiFetch(
-            ENDPOINT,
-            'POST',
-            payload
-        );
-
-        alert('Venda cadastrada com sucesso!');
-
-        carrinho = [];
-
-        atualizarResumoPedido();
-
-        window.location.href = 'Vendas.html';
-
-    } catch (error) {
-
-        alert(
-            'Erro ao finalizar venda: ' +
-            error.message
-        );
+        alert(erro.message);
     }
 }
 
+
+
+// =========================
+// LISTAR VENDAS
+// =========================
+
+async function listarVendas() {
+
+    const tbody =
+        document.querySelector('tbody');
+
+    if (!tbody) return;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/PedidoVenda`
+            );
+
+        const vendas =
+            await response.json();
+
+        tbody.innerHTML = '';
+
+        for (const venda of vendas) {
+
+            let nomeCliente =
+                `Cliente ID ${venda.clienteId}`;
+
+            if (
+                clientes[venda.clienteId - 1]
+            ) {
+
+                nomeCliente =
+                    clientes[venda.clienteId - 1].nome
+                    ||
+                    clientes[venda.clienteId - 1].Nome;
+            }
+
+            let total = 0;
+
+            venda.itens.forEach(item => {
+
+                total +=
+                    item.precoUni *
+                    item.quantidade;
+            });
+
+            const nomesProdutos =
+                venda.itens.map(item => {
+
+                    const produto =
+                        produtos.find(
+                            p =>
+                                p.id ==
+                                item.produtoId
+                        );
+
+                    return produto
+                        ? produto.nome
+                        : 'Produto';
+                }).join(', ');
+
+            tbody.innerHTML += `
+                <tr>
+
+                    <td>
+                        #${venda.id}
+                    </td>
+
+                    <td>
+                        ${nomeCliente}
+                    </td>
+
+                    <td>
+                        ${nomesProdutos}
+                    </td>
+
+                    <td>
+                        ${new Date(venda.data)
+                            .toLocaleString()}
+                    </td>
+
+                    <td class="price-value">
+                        R$ ${total.toFixed(2)}
+                    </td>
+
+                    <td>
+                        Pix
+                    </td>
+
+                    <td>
+                        <span class="status-badge paid">
+                            Pago
+                        </span>
+                    </td>
+
+                </tr>
+            `;
+        }
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert('Erro ao listar vendas');
+    }
+}
+
+
+
+// =========================
+// EVENTOS
+// =========================
+
 document.addEventListener(
     'DOMContentLoaded',
-    () => {
+    async () => {
 
-        if (document.querySelector('table')) {
-            carregarTabelaVendas();
-        }
+        await carregarClientes();
 
-        const btnAdicionar =
-            document.querySelector(
-                '.btn-add-item'
-            );
+        await carregarProdutos();
 
-        if (btnAdicionar) {
+        await listarVendas();
 
-            btnAdicionar.addEventListener(
+        const btnInserir =
+            document.querySelector('.btn-add-item');
+
+        if (btnInserir) {
+
+            btnInserir.addEventListener(
                 'click',
-                adicionarItemCarrinho
+                inserirItem
             );
         }
 
-        const descontoInput =
-            document.getElementById(
-                'desconto'
-            );
+        const desconto =
+            document.getElementById('desconto');
 
-        if (descontoInput) {
+        if (desconto) {
 
-            descontoInput.addEventListener(
+            desconto.addEventListener(
                 'input',
-                atualizarResumoPedido
+                atualizarResumo
             );
         }
 
         const btnFinalizar =
-            document.querySelector(
-                '.btn-finalize'
-            );
+            document.querySelector('.btn-finalize');
 
         if (btnFinalizar) {
 
             btnFinalizar.addEventListener(
                 'click',
-                (e) => {
-
-                    e.preventDefault();
-
-                    finalizarVenda();
-                }
+                finalizarVenda
             );
         }
     }
 );
-

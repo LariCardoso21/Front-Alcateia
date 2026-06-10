@@ -3,9 +3,11 @@ const ENDPOINT = 'Clientes';
 
 let clienteSelecionadoId = null;
 
-
-
 async function obterTodosClientes() {
+
+    const tbody = document.getElementById('tabela-clientes-body');
+
+    if (!tbody) return;
 
     try {
 
@@ -17,20 +19,13 @@ async function obterTodosClientes() {
 
         const clientes = await response.json();
 
-        console.log(clientes);
-
-        const tbody = document.querySelector('.table tbody');
-
-        if (!tbody) return;
-
         tbody.innerHTML = '';
 
-        clientes.forEach((cliente, index) => {
+        clientes.forEach(cliente => {
 
             const tr = document.createElement('tr');
 
             tr.innerHTML = `
-            
                 <td>
                     <div class="client-cell">
 
@@ -40,19 +35,14 @@ async function obterTodosClientes() {
                             type="button"
                             class="btn-detail-arrow"
                             title="Ver detalhes"
+
                             onclick="abrirDetalhes(
-                                ${index},
-                                '${cliente.nome || ''}',
-                                '${cliente.email || ''}',
-                                '${cliente.telefone || ''}',
+                                ${cliente.id},
+                                '${cliente.nome}',
+                                '${cliente.email}',
+                                '${cliente.telefone}',
                                 '${cliente.rua || ''}',
-                                '${cliente.cidade || ''}',
-                                '${cliente.dataNascimento || ''}',
-                                '${cliente.estado || ''}',
-                                '${cliente.CPF || ''}',
-                                '${cliente.bairro || ''}',
-                                '${cliente.cep || ''}',
-                                '${cliente.numero || ''}'
+                                '${cliente.cidade || ''}'
                             )"
                         >
                             &#10142;
@@ -61,7 +51,7 @@ async function obterTodosClientes() {
                     </div>
                 </td>
 
-                <td>${cliente.email || ''}</td>
+                <td>${cliente.email}</td>
 
                 <td>${cliente.telefone || ''}</td>
 
@@ -70,7 +60,7 @@ async function obterTodosClientes() {
                     <button
                         type="button"
                         class="btn-action delete"
-                        onclick="excluirCliente(${index})"
+                        onclick="excluirCliente(${cliente.id})"
                     >
                         Excluir
                     </button>
@@ -79,7 +69,6 @@ async function obterTodosClientes() {
             `;
 
             tbody.appendChild(tr);
-
         });
 
     } catch (error) {
@@ -92,50 +81,49 @@ async function obterTodosClientes() {
 
 
 
-
 async function cadastrarCliente(event) {
 
     event.preventDefault();
 
     const payload = {
 
-        Nome: document.getElementById('nome').value,
+        nome: document.getElementById('nome').value,
 
-        Email: document.getElementById('email').value,
+        email: document.getElementById('email').value,
 
-        Telefone: document.getElementById('telefone').value,
+        telefone: document.getElementById('telefone').value,
 
-        Rua: document.getElementById('endereco').value,
+        rua: document.getElementById('endereco').value,
 
-        Cidade: document.getElementById('cidade').value,
+        cidade: document.getElementById('cidade').value,
 
-        Estado: '',
+        cep: "",
 
-        Bairro: '',
+        dataNascimento: "2000-01-01",
 
-        Cep: '',
+        cpf: "",
 
-        CPF: '',
+        estado: "",
 
-        Numero: 0,
+        bairro: "",
 
-        DataNascimento: new Date().toISOString()
+        numero: 0
     };
-
-    console.log(payload);
 
     try {
 
-        const response = await fetch(`${BASE_URL}/${ENDPOINT}`, {
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT}`,
+            {
+                method: 'POST',
 
-            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
 
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(payload)
-        });
+                body: JSON.stringify(payload)
+            }
+        );
 
         if (!response.ok) {
 
@@ -159,33 +147,72 @@ async function cadastrarCliente(event) {
 }
 
 
+function abrirDetalhes(
+    id,
+    nome,
+    email,
+    telefone,
+    endereco,
+    cidade
+) {
+
+    clienteSelecionadoId = id;
+
+    document.getElementById('detalhe-nome').value = nome;
+
+    document.getElementById('detalhe-email').value = email;
+
+    document.getElementById('detalhe-telefone').value = telefone;
+
+    document.getElementById('detalhe-endereco').value = endereco;
+
+    document.getElementById('detalhe-cidade').value = cidade;
+
+    const drawer = document.getElementById('drawer-detalhes');
+
+    if (drawer) {
+        drawer.classList.add('active');
+    }
+}
+
+
+
+function fecharDetalhes() {
+
+    const drawer = document.getElementById('drawer-detalhes');
+
+    if (drawer) {
+        drawer.classList.remove('active');
+    }
+}
+
 
 
 async function salvarAlteracoes() {
 
     const payload = {
 
-        Nome: document.getElementById('detalhe-nome').value,
+        nome: document.getElementById('detalhe-nome').value,
 
-        Email: document.getElementById('detalhe-email').value,
+        email: document.getElementById('detalhe-email').value,
 
-        Telefone: document.getElementById('detalhe-telefone').value,
+        telefone: document.getElementById('detalhe-telefone').value,
 
-        Rua: document.getElementById('detalhe-endereco').value,
+        rua: document.getElementById('detalhe-endereco').value,
 
-        Cidade: document.getElementById('detalhe-cidade').value,
+        cidade: document.getElementById('detalhe-cidade').value,
 
-        Estado: '',
+        cep: "",
 
-        Bairro: '',
+        dataNascimento: "2000-01-01",
 
-        Cep: '',
+        cpf: "",
 
-        CPF: '',
+        estado: "",
 
-        Numero: 0,
+        bairro: "",
 
-        DataNascimento: new Date().toISOString()
+        numero: 0
     };
 
     try {
@@ -193,7 +220,6 @@ async function salvarAlteracoes() {
         const response = await fetch(
             `${BASE_URL}/${ENDPOINT}/${clienteSelecionadoId}`,
             {
-
                 method: 'PUT',
 
                 headers: {
@@ -228,13 +254,9 @@ async function salvarAlteracoes() {
 }
 
 
-
-
 async function excluirCliente(id) {
 
-    const confirmar = confirm(
-        'Deseja excluir este cliente?'
-    );
+    const confirmar = confirm('Deseja excluir este cliente?');
 
     if (!confirmar) return;
 
@@ -248,6 +270,7 @@ async function excluirCliente(id) {
         );
 
         if (!response.ok) {
+
             throw new Error('Erro ao excluir cliente');
         }
 
@@ -264,58 +287,10 @@ async function excluirCliente(id) {
 }
 
 
-
-
-function abrirDetalhes(
-    id,
-    nome,
-    email,
-    telefone,
-    endereco,
-    cidade,
-    dataCadastro
-) {
-
-    clienteSelecionadoId = id;
-
-    document.getElementById('detalhe-nome').value = nome;
-
-    document.getElementById('detalhe-email').value = email;
-
-    document.getElementById('detalhe-telefone').value = telefone;
-
-    document.getElementById('detalhe-endereco').value = endereco;
-
-    document.getElementById('detalhe-cidade').value = cidade;
-
-    document.getElementById('detalhe-data').value = dataCadastro;
-
-    document
-        .getElementById('drawer-detalhes')
-        .classList.add('active');
-}
-
-
-
-
-function fecharDetalhes() {
-
-    document
-        .getElementById('drawer-detalhes')
-        .classList.remove('active');
-}
-
-
-
-
 window.abrirDetalhes = abrirDetalhes;
-
 window.fecharDetalhes = fecharDetalhes;
-
 window.salvarAlteracoes = salvarAlteracoes;
-
 window.excluirCliente = excluirCliente;
-
 
 
 

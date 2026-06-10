@@ -1,3 +1,5 @@
+// controleEstoque.js
+
 const BASE_URL = 'http://localhost:5191/api';
 
 let historico = [];
@@ -19,8 +21,6 @@ async function carregarControleEstoque() {
         }
 
         const produtos = await response.json();
-
-        console.log(produtos);
 
         atualizarResumo(produtos);
 
@@ -166,18 +166,30 @@ async function entradaEstoque(id) {
 
     try {
 
-        const responseProduto = await fetch(
-            `${BASE_URL}/Produto/${id}`
+        const responseLista = await fetch(
+            `${BASE_URL}/Produto`
         );
 
-        const produto = await responseProduto.json();
+        if (!responseLista.ok) {
+            throw new Error(
+                'Erro ao buscar produtos'
+            );
+        }
 
-        const novoEstoque =
-            produto.qtdEstoque + parseInt(quantidade);
+        const produtos = await responseLista.json();
+
+        const produto = produtos.find(
+            p => p.id === id
+        );
+
+        if (!produto) {
+
+            alert('Produto não encontrado');
+
+            return;
+        }
 
         const payload = {
-
-            id: produto.id,
 
             nome: produto.nome,
 
@@ -185,7 +197,8 @@ async function entradaEstoque(id) {
 
             marca: produto.marca,
 
-            qtdEstoque: novoEstoque,
+            qtdEstoque:
+                produto.qtdEstoque + parseInt(quantidade),
 
             qtdMinima: produto.qtdMinima,
 
@@ -216,7 +229,7 @@ async function entradaEstoque(id) {
 
             tipo: 'Entrada',
 
-            texto: `+${quantidade} unidades adicionadas`,
+            texto: `+${quantidade} unidades adicionadas em ${produto.nome}`,
 
             data: new Date().toLocaleString()
         });
@@ -244,11 +257,28 @@ async function saidaEstoque(id) {
 
     try {
 
-        const responseProduto = await fetch(
-            `${BASE_URL}/Produto/${id}`
+        const responseLista = await fetch(
+            `${BASE_URL}/Produto`
         );
 
-        const produto = await responseProduto.json();
+        if (!responseLista.ok) {
+            throw new Error(
+                'Erro ao buscar produtos'
+            );
+        }
+
+        const produtos = await responseLista.json();
+
+        const produto = produtos.find(
+            p => p.id === id
+        );
+
+        if (!produto) {
+
+            alert('Produto não encontrado');
+
+            return;
+        }
 
         const novoEstoque =
             produto.qtdEstoque - parseInt(quantidade);
@@ -261,8 +291,6 @@ async function saidaEstoque(id) {
         }
 
         const payload = {
-
-            id: produto.id,
 
             nome: produto.nome,
 
@@ -301,7 +329,7 @@ async function saidaEstoque(id) {
 
             tipo: 'Saída',
 
-            texto: `-${quantidade} unidades retiradas`,
+            texto: `-${quantidade} unidades retiradas de ${produto.nome}`,
 
             data: new Date().toLocaleString()
         });
@@ -370,4 +398,3 @@ document.addEventListener(
     'DOMContentLoaded',
     carregarControleEstoque
 );
-
