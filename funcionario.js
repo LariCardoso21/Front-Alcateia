@@ -1,8 +1,9 @@
-
 const BASE_URL = 'http://localhost:5191/api';
 const ENDPOINT = 'Funcionario';
 
 let funcionarioSelecionadoId = null;
+
+
 
 async function obterTodosFuncionarios() {
 
@@ -18,9 +19,7 @@ async function obterTodosFuncionarios() {
 
         console.log(funcionarios);
 
-        const tbody = document.getElementById(
-            'tabela-funcionarios-body'
-        );
+        const tbody = document.getElementById('tabela-funcionarios-body');
 
         if (!tbody) return;
 
@@ -33,7 +32,7 @@ async function obterTodosFuncionarios() {
             tr.innerHTML = `
             
                 <td>
-                    <div class="employee-cell">
+                    <div class="product-cell">
 
                         <span>${funcionario.nome}</span>
 
@@ -41,7 +40,6 @@ async function obterTodosFuncionarios() {
                             type="button"
                             class="btn-detail-arrow"
                             title="Ver detalhes"
-
                             onclick="abrirDetalhesFunc(
                                 ${funcionario.id},
                                 '${funcionario.nome}',
@@ -58,7 +56,7 @@ async function obterTodosFuncionarios() {
                     </div>
                 </td>
 
-                <td>${funcionario.nome}@gmail.com</td>
+                <td>${funcionario.Cpf}</td>
 
                 <td>${funcionario.TelefoneFuncionario}</td>
 
@@ -67,7 +65,6 @@ async function obterTodosFuncionarios() {
                     <button
                         type="button"
                         class="btn-action edit"
-
                         onclick="abrirDetalhesFunc(
                             ${funcionario.id},
                             '${funcionario.nome}',
@@ -99,10 +96,12 @@ async function obterTodosFuncionarios() {
     } catch (error) {
 
         console.error(error);
-
         alert('Erro ao carregar funcionários');
     }
 }
+
+
+
 
 async function cadastrarFuncionario(event) {
 
@@ -114,37 +113,37 @@ async function cadastrarFuncionario(event) {
 
         Cpf: document.getElementById('cpf').value,
 
-        TelefoneFuncionario:
-            document.getElementById('telefone').value,
+        cargo: '',
 
-        Cidade:
-            document.getElementById('cidade').value,
+        Salario: 0,
 
-        cargo: 'Funcionário',
+        TelefoneFuncionario: document.getElementById('telefone').value,
 
-        Salario: 0
+        Cidade: document.getElementById('cidade').value
     };
+
+    console.log(payload);
 
     try {
 
-        const response = await fetch(
-            `${BASE_URL}/${ENDPOINT}`,
-            {
+        const response = await fetch(`${BASE_URL}/${ENDPOINT}`, {
 
-                method: 'POST',
+            method: 'POST',
 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+            headers: {
+                'Content-Type': 'application/json'
+            },
 
-                body: JSON.stringify(payload)
-            }
-        );
+            body: JSON.stringify(payload)
+        });
 
         if (!response.ok) {
-            throw new Error(
-                'Erro ao cadastrar funcionário'
-            );
+
+            const erro = await response.text();
+
+            console.log(erro);
+
+            throw new Error('Erro ao cadastrar funcionário');
         }
 
         alert('Funcionário cadastrado com sucesso!');
@@ -159,38 +158,28 @@ async function cadastrarFuncionario(event) {
     }
 }
 
+
+
+
 async function salvarFuncionario() {
 
     const payload = {
 
         id: funcionarioSelecionadoId,
 
-        nome:
-            document.getElementById('func-nome').value,
+        nome: document.getElementById('func-nome').value,
 
-        Cpf:
-            document.getElementById('func-cpf').value,
+        Cpf: document.getElementById('func-cpf').value,
 
-        cargo:
-            document.getElementById('func-cargo').value,
+        cargo: document.getElementById('func-cargo').value,
 
         Salario: parseFloat(
-            document.getElementById('func-salario')
-                .value
-                .replace('R$', '')
-                .replace('.', '')
-                .replace(',', '.')
+            document.getElementById('func-salario').value
         ),
 
-        TelefoneFuncionario:
-            document.getElementById('func-telefone')
-                .value,
+        TelefoneFuncionario: document.getElementById('func-telefone').value,
 
-        cidade:
-            document.getElementById('func-cidade')
-                .value,
-
-        DataNasc: new Date().toISOString()
+        cidade: document.getElementById('func-cidade').value
     };
 
     try {
@@ -210,9 +199,12 @@ async function salvarFuncionario() {
         );
 
         if (!response.ok) {
-            throw new Error(
-                'Erro ao atualizar funcionário'
-            );
+
+            const erro = await response.text();
+
+            console.log(erro);
+
+            throw new Error('Erro ao atualizar funcionário');
         }
 
         alert('Funcionário atualizado com sucesso!');
@@ -228,6 +220,9 @@ async function salvarFuncionario() {
         alert(error.message);
     }
 }
+
+
+
 
 async function excluirFuncionario(id) {
 
@@ -247,9 +242,7 @@ async function excluirFuncionario(id) {
         );
 
         if (!response.ok) {
-            throw new Error(
-                'Erro ao excluir funcionário'
-            );
+            throw new Error('Erro ao excluir funcionário');
         }
 
         alert('Funcionário excluído com sucesso!');
@@ -265,6 +258,8 @@ async function excluirFuncionario(id) {
 }
 
 
+
+
 function abrirDetalhesFunc(
     id,
     nome,
@@ -278,16 +273,23 @@ function abrirDetalhesFunc(
     funcionarioSelecionadoId = id;
 
     document.getElementById('func-nome').value = nome;
+
     document.getElementById('func-cpf').value = cpf;
+
     document.getElementById('func-cargo').value = cargo;
+
     document.getElementById('func-salario').value = salario;
+
     document.getElementById('func-telefone').value = telefone;
+
     document.getElementById('func-cidade').value = cidade;
 
     document
         .getElementById('drawer-funcionario')
         .classList.add('active');
 }
+
+
 
 
 function fecharDetalhesFunc() {
@@ -298,10 +300,18 @@ function fecharDetalhesFunc() {
 }
 
 
+
+
 window.abrirDetalhesFunc = abrirDetalhesFunc;
+
 window.fecharDetalhesFunc = fecharDetalhesFunc;
+
 window.salvarFuncionario = salvarFuncionario;
+
 window.excluirFuncionario = excluirFuncionario;
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -319,4 +329,3 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 });
-
