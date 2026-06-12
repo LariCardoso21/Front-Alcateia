@@ -1,263 +1,393 @@
-import { apiFetch } from "./api.js";
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api';
 
-const ENDPOINT = 'estoque';
+let historico = [];
 
+async function carregarControleEstoque() {
 
-const historicoMovimentacoes = [];
-
-async function carregarPainelControleEstoque() {
     try {
-        const listaEstoque = await apiFetch(ENDPOINT, 'GET');
 
-        atualizarCardsResumo(listaEstoque);
-        renderizarTabelaMovimentacao(listaEstoque);
-        renderizarHistorico();
+        const response = await fetch(
+            `${BASE_URL}/Produto`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao carregar produtos'
+            );
+        }
+
+        const produtos = await response.json();
+
+        atualizarResumo(produtos);
+
+        preencherTabela(produtos);
 
     } catch (error) {
-        alert('Erro ao carregar dados do estoque: ' + error.message);
+
+        console.error(error);
+
+        alert(error.message);
     }
 }
 
+function atualizarResumo(produtos) {
 
-function atualizarCardsResumo(listaEstoque) {
+    const totalItens = produtos.reduce(
+        (total, produto) =>
+            total + produto.qtdEstoque,
+        0
+    );
 
-    let totalItens = 0;
-    let criticos = 0;
-    let esgotados = 0;
+    const criticos = produtos.filter(
+        produto =>
+            produto.qtdEstoque <= produto.qtdMinima
+    ).length;
 
-    listaEstoque.forEach(item => {
+    const esgotados = produtos.filter(
+        produto =>
+            produto.qtdEstoque <= 0
+    ).length;
 
-        totalItens += item.quantidade;
+    document.querySelector(
+        '.total .summary-value'
+    ).textContent = totalItens;
 
+    document.querySelector(
+        '.critical .summary-value'
+    ).textContent = criticos;
 
-        const minimo = item.estoqueMinimo || 8;
-
-        if (item.quantidade === 0) {
-            esgotados++;
-        }
-        else if (item.quantidade < minimo) {
-            criticos++;
-        }
-    });
-
-    document.getElementById('card-total-itens').textContent = totalItens;
-
-    document.getElementById('card-estoque-critico').textContent = criticos;
-
-    const cardEsgotados = document.getElementById('card-produtos-esgotados');
-
-    if (cardEsgotados) {
-        cardEsgotados.textContent = esgotados;
-    }
+    document.querySelector(
+        '.out .summary-value'
+    ).textContent = esgotados;
 }
 
-function renderizarTabelaMovimentacao(listaEstoque) {
 
-    const corpoTabela = document.getElementById('tabela-movimentacao-body');
 
-    if (!corpoTabela) return;
 
-    corpoTabela.innerHTML = '';
+function preencherTabela(produtos) {
 
-    listaEstoque.forEach(item => {
+    const tabela = document.querySelector(
+        'table tbody'
+    );
+
+    if (!tabela) return;
+
+    tabela.innerHTML = '';
+
+    produtos.forEach(produto => {
+
+        let status = '';
+        let classeStatus = '';
+
+        if (produto.qtdEstoque <= 0) {
+
+            status = 'Esgotado';
+
+            classeStatus = 'esgotado';
+
+        } else if (
+            produto.qtdEstoque <= produto.qtdMinima
+        ) {
+
+            status = 'Crítico';
+
+            classeStatus = 'alert';
+
+        } else {
+
+            status = 'Normal';
+
+            classeStatus = 'normal';
+        }
 
         const tr = document.createElement('tr');
 
-        const minimo = item.estoqueMinimo || 8;
-
-        let statusBadge = `<span class="status-badge normal">Normal</span>`;
-
-        let desabilitarRetirar = '';
-
-        let estiloOpacidade = '';
-
-
-        if (item.quantidade === 0) {
-
-            statusBadge = `<span class="status-badge esgotado">Esgotado</span>`;
-
-            desabilitarRetirar = 'disabled';
-
-            estiloOpacidade = 'style="opacity: 0.3; cursor: not-allowed;"';
-
-        }
-        else if (item.quantidade < minimo) {
-
-            statusBadge = `<span class="status-badge alert">Crítico</span>`;
-        }
-
         tr.innerHTML = `
-            <td>${item.nome}</td>
-            <td>${item.quantidade}</td>
-            <td>${minimo}</td>
-            <td>${statusBadge}</td>
+
+            <td>${produto.nome}</td>
+
+            <td>${produto.qtdEstoque}</td>
+
+            <td>${produto.qtdMinima}</td>
 
             <td>
+                <span class="status-badge ${classeStatus}">
+                    ${status}
+                </span>
+            </td>
+
+            <td>
+
                 <div class="stock-actions">
 
-                    <button 
+                    <button
                         class="btn-stock btn-add"
-                        onclick="ajustarEstoque(${item.id}, 'entrada')">
+                        onclick="entradaEstoque(${produto.id})"
+                    >
                         + Adicionar
                     </button>
 
-                    <button 
+                    <button
                         class="btn-stock btn-remove"
-                        ${desabilitarRetirar}
-                        ${estiloOpacidade}
-                        onclick="ajustarEstoque(${item.id}, 'saida')">
+                        onclick="saidaEstoque(${produto.id})"
+                    >
                         - Retirar
                     </button>
 
                 </div>
+
             </td>
         `;
 
-        corpoTabela.appendChild(tr);
+        tabela.appendChild(tr);
+
     });
+
+    atualizarHistorico();
 }
 
 
-window.ajustarEstoque = async function (id, tipo) {
+
+
+async function entradaEstoque(id) {
+
+    const quantidade = prompt(
+        'Quantidade para adicionar:'
+    );
+
+    if (!quantidade) return;
 
     try {
 
-        const itemEstoque = await apiFetch(`${ENDPOINT}/${id}`, 'GET');
-
-        const acaoTexto =
-            tipo === 'entrada'
-                ? 'adicionar ao'
-                : 'retirar do';
-
-        const qtdInformada = prompt(
-            `Quantas unidades deseja ${acaoTexto} estoque do produto "${itemEstoque.nome}"?`
+        const responseLista = await fetch(
+            `${BASE_URL}/Produto`
         );
 
+        if (!responseLista.ok) {
+            throw new Error(
+                'Erro ao buscar produtos'
+            );
+        }
 
-        if (qtdInformada === null) return;
+        const produtos = await responseLista.json();
 
-        const quantidadeAjuste = parseInt(qtdInformada);
+        const produto = produtos.find(
+            p => p.id === id
+        );
 
+        if (!produto) {
 
-        if (isNaN(quantidadeAjuste) || quantidadeAjuste <= 0) {
-
-            alert('Digite um número válido maior que zero.');
+            alert('Produto não encontrado');
 
             return;
         }
 
-        let novaQuantidade = itemEstoque.quantidade;
+        const payload = {
 
-        if (tipo === 'entrada') {
+            nome: produto.nome,
 
-            novaQuantidade += quantidadeAjuste;
+            descricao: produto.descricao,
 
-            registrarNoHistorico(
-                'Entrada',
-                `+${quantidadeAjuste} unidades de ${itemEstoque.nome}`
-            );
-        }
+            marca: produto.marca,
 
-     
-        else {
+            qtdEstoque:
+                produto.qtdEstoque + parseInt(quantidade),
 
-            if (quantidadeAjuste > itemEstoque.quantidade) {
+            qtdMinima: produto.qtdMinima,
 
-                alert(
-                    `Saldo insuficiente! Existem apenas ${itemEstoque.quantidade} unidades no estoque.`
-                );
-
-                return;
-            }
-
-            novaQuantidade -= quantidadeAjuste;
-
-            registrarNoHistorico(
-                'Saída',
-                `-${quantidadeAjuste} unidades de ${itemEstoque.nome}`
-            );
-        }
-
-
-        const estoqueAtualizado = {
-            ...itemEstoque,
-            quantidade: novaQuantidade
+            valorProduto: produto.valorProduto
         };
 
-        await apiFetch(
-            `${ENDPOINT}/${id}`,
-            'PUT',
-            estoqueAtualizado
+        const response = await fetch(
+            `${BASE_URL}/Produto/${id}`,
+            {
+
+                method: 'PUT',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(payload)
+            }
         );
 
-        carregarPainelControleEstoque();
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao adicionar estoque'
+            );
+        }
+
+        historico.unshift({
+
+            tipo: 'Entrada',
+
+            texto: `+${quantidade} unidades adicionadas em ${produto.nome}`,
+
+            data: new Date().toLocaleString()
+        });
+
+        carregarControleEstoque();
 
     } catch (error) {
 
-        alert('Erro ao atualizar estoque: ' + error.message);
+        console.error(error);
+
+        alert(error.message);
     }
-};
-
-
-function registrarNoHistorico(tipo, mensagem) {
-
-    const agora = new Date();
-
-    const horaFormatada = agora.toLocaleTimeString(
-        'pt-BR',
-        {
-            hour: '2-digit',
-            minute: '2-digit'
-        }
-    );
-
-    historicoMovimentacoes.unshift({
-        tipo: tipo,
-        mensagem: mensagem,
-        hora: `Hoje, ${horaFormatada}`
-    });
 }
 
-function renderizarHistorico() {
 
-    const lista = document.getElementById('lista-historico');
+
+
+async function saidaEstoque(id) {
+
+    const quantidade = prompt(
+        'Quantidade para retirar:'
+    );
+
+    if (!quantidade) return;
+
+    try {
+
+        const responseLista = await fetch(
+            `${BASE_URL}/Produto`
+        );
+
+        if (!responseLista.ok) {
+            throw new Error(
+                'Erro ao buscar produtos'
+            );
+        }
+
+        const produtos = await responseLista.json();
+
+        const produto = produtos.find(
+            p => p.id === id
+        );
+
+        if (!produto) {
+
+            alert('Produto não encontrado');
+
+            return;
+        }
+
+        const novoEstoque =
+            produto.qtdEstoque - parseInt(quantidade);
+
+        if (novoEstoque < 0) {
+
+            alert('Estoque insuficiente');
+
+            return;
+        }
+
+        const payload = {
+
+            nome: produto.nome,
+
+            descricao: produto.descricao,
+
+            marca: produto.marca,
+
+            qtdEstoque: novoEstoque,
+
+            qtdMinima: produto.qtdMinima,
+
+            valorProduto: produto.valorProduto
+        };
+
+        const response = await fetch(
+            `${BASE_URL}/Produto/${id}`,
+            {
+
+                method: 'PUT',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(payload)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                'Erro ao retirar estoque'
+            );
+        }
+
+        historico.unshift({
+
+            tipo: 'Saída',
+
+            texto: `-${quantidade} unidades retiradas de ${produto.nome}`,
+
+            data: new Date().toLocaleString()
+        });
+
+        carregarControleEstoque();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+    }
+}
+
+
+
+
+function atualizarHistorico() {
+
+    const lista = document.querySelector(
+        '.history-list'
+    );
 
     if (!lista) return;
 
+    lista.innerHTML = '';
 
-    if (historicoMovimentacoes.length === 0) {
+    historico.slice(0, 5).forEach(item => {
 
-        lista.innerHTML = `
-            <li class="history-item">
-                <small>
-                    Nenhuma movimentação realizada nesta sessão.
-                </small>
-            </li>
-        `;
+        const li = document.createElement('li');
 
-        return;
-    }
+        li.className =
+            item.tipo === 'Entrada'
+                ? 'history-item input'
+                : 'history-item output';
 
-    lista.innerHTML = historicoMovimentacoes.map(item => `
-
-        <li class="history-item ${item.tipo === 'Entrada'
-            ? 'input'
-            : 'output'}">
+        li.innerHTML = `
 
             <span class="history-type">
                 ${item.tipo}
             </span>
 
-            <p>${item.mensagem}</p>
+            <p>
+                <strong>${item.texto}</strong>
+            </p>
 
-            <small>${item.hora}</small>
+            <small>${item.data}</small>
+        `;
 
-        </li>
+        lista.appendChild(li);
 
-    `).join('');
+    });
 }
+
+
+
+
+window.entradaEstoque = entradaEstoque;
+
+window.saidaEstoque = saidaEstoque;
+
+
+
 
 document.addEventListener(
     'DOMContentLoaded',
-    carregarPainelControleEstoque
+    carregarControleEstoque
 );

@@ -41,58 +41,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="client-cell">
-                                <span>Cliente1</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 1', 'cliente1@gmail.com', '14 99999-9999', 'Rua das Flores, 123', 'Marília - SP', '12/05/2025')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Cliente1@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="client-cell">
-                                <span>Cliente2</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 2', 'cliente2@gmail.com', '14 98888-8888', 'Av. Paulista, 1500', 'São Paulo - SP', '20/08/2025')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Cliente2@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="client-cell">
-                                <span>Cliente3</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 3', 'cliente3@gmail.com', '14 97777-7777', 'Rua Bahia, 450', 'Marília - SP', '02/01/2026')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Cliente3@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="client-cell">
-                                <span>Cliente4</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhes('Cliente 4', 'cliente4@gmail.com', '14 96666-6666', 'Rua Goiás, 89', 'Marília - SP', '18/03/2026')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>Cliente4@gmail</td>
-                        <td>14 99999999</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
+                   
+                    <tbody id="tabela-clientes-body"></tbody>
                 </tbody>
             </table>
         </div>
@@ -140,7 +90,6 @@
             </div>
         </div>
     </div>
-    <tbody id="tabela-clientes-body"></tbody>
 
 
 
@@ -165,7 +114,8 @@
             fecharDetalhes();
         }
     </script>
-    <script src="clientes.js"></script>
+  
 
+    <script src="Cliente.js"></script>
 </body>
 </html>

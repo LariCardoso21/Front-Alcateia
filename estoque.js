@@ -1,57 +1,71 @@
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api/Estoque';
 
-const API_URL = 'http://localhost:5191/api/Estoque';
-
-async function obterTodosEstoque() {
+async function carregarEstoque() {
 
     try {
 
-        const response = await fetch(API_URL);
+        const response = await fetch(
+            `${BASE_URL}`
+        );
 
         if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
+            throw new Error(
+                'Erro ao carregar estoque'
+            );
         }
 
-        const estoques = await response.json();
+        const produtos = await response.json();
 
-        const tabela = document.getElementById('tabela-estoque-body');
+        console.log(produtos);
 
-        tabela.innerHTML = '';
+        const tbody = document.querySelector(
+            'table tbody'
+        );
 
-        estoques.forEach(estoque => {
+        if (!tbody) return;
 
-            const tr = document.createElement('tr');
+        tbody.innerHTML = '';
 
-            let statusBotao = '';
-            let classeBotao = '';
+        produtos.forEach(produto => {
 
-            if (estoque.quantidade <= estoque.quantidadeMinima) {
+            let status = '';
+            let classe = '';
 
-                statusBotao = 'Em baixa';
-                classeBotao = 'btn-delete';
+            if (produto.qtdEstoque <= produto.qtdMinima) {
+
+                status = 'Em baixa';
+
+                classe = 'btn-delete';
 
             } else {
 
-                statusBotao = 'Estoque';
-                classeBotao = 'btn-edit';
+                status = 'Estoque';
+
+                classe = 'btn-edit';
             }
 
-            tr.innerHTML = `
-                <td>${estoque.nomeProduto}</td>
+            const tr = document.createElement('tr');
 
-                <td>${estoque.quantidade}</td>
+            tr.innerHTML = `
+
+                <td>${produto.nome}</td>
+
+                <td>${produto.qtdEstoque}</td>
 
                 <td>
+
                     <div class="action-buttons">
 
-                        <button class="btn-action ${classeBotao}">
-                            ${statusBotao}
+                        <button class="btn-action ${classe}">
+                            ${status}
                         </button>
 
                     </div>
+
                 </td>
             `;
 
-            tabela.appendChild(tr);
+            tbody.appendChild(tr);
 
         });
 
@@ -59,13 +73,14 @@ async function obterTodosEstoque() {
 
         console.error(error);
 
-        alert('Erro ao carregar estoque');
-
+        alert(error.message);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
 
-    obterTodosEstoque();
 
-});
+document.addEventListener(
+    'DOMContentLoaded',
+    carregarEstoque
+);
+

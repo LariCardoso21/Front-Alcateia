@@ -1,192 +1,184 @@
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api/Vendas';
 
-const BASE_URL = 'http://localhost:5191/api';
-const ENDPOINT = 'Pedidovenda';
+const ENDPOINT_VENDAS = 'PedidoVenda';
+const ENDPOINT_CLIENTES = 'Clientes';
+const ENDPOINT_PRODUTOS = 'Produto';
 
-
+let clientes = [];
+let produtos = [];
 let carrinho = [];
 
 
-async function apiFetch(endpoint, method = 'GET', data = null) {
+// =======================
+// CARREGAR CLIENTES
+// =======================
 
-    const config = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
+async function carregarClientes() {
 
-    if (data !== null) {
-        config.body = JSON.stringify(data);
-    }
+    const select = document.getElementById('cliente');
+
+    if (!select) return;
 
     try {
 
         const response = await fetch(
-            `${BASE_URL}/${endpoint}`,
-            config
+            `${BASE_URL}/${ENDPOINT_CLIENTES}`
         );
 
         if (!response.ok) {
+            throw new Error('Erro ao carregar clientes');
+        }
 
-            const erro = await response
-                .json()
-                .catch(() => ({}));
+        clientes = await response.json();
 
-            throw new Error(
-                erro.mensagem || `Erro HTTP: ${response.status}`
+        console.log("CLIENTES:", clientes);
+
+        select.innerHTML =
+            '<option value="">Escolha um cliente...</option>';
+
+        clientes.forEach(cliente => {
+
+            const option = document.createElement('option');
+
+            // força pegar o id
+            option.value = String(cliente.id);
+
+            option.textContent = cliente.nome;
+
+            select.appendChild(option);
+        });
+
+        // debug
+        select.addEventListener('change', () => {
+            console.log(
+                'Cliente escolhido:',
+                select.value
             );
-        }
-
-        if (response.status === 204) {
-            return null;
-        }
-
-        return await response.json();
-
-    } catch (error) {
-
-        console.error('Erro na API:', error);
-
-        throw error;
-    }
-}
-
-async function carregarTabelaVendas() {
-
-    try {
-
-        const vendas = await apiFetch(ENDPOINT, 'GET');
-
-        const corpoTabela = document.querySelector('tbody');
-
-        corpoTabela.innerHTML = '';
-
-        vendas.forEach(venda => {
-
-            const produtosTexto = venda.itens
-                .map(item =>
-                    `${item.quantidade}x ${item.nomeProduto}`
-                )
-                .join(', ');
-
-            let statusClasse = '';
-
-            if (venda.status === 'Pago') {
-                statusClasse = 'paid';
-            }
-            else if (venda.status === 'Pendente') {
-                statusClasse = 'pending';
-            }
-            else {
-                statusClasse = 'canceled';
-            }
-
-            const tr = document.createElement('tr');
-
-            tr.innerHTML = `
-                <td>#${venda.id}</td>
-                <td>${venda.clienteNome}</td>
-                <td>${produtosTexto}</td>
-                <td>${venda.dataVenda}</td>
-                <td class="price-value">
-                    R$ ${venda.valorTotal.toFixed(2)}
-                </td>
-                <td>${venda.formaPagamento}</td>
-                <td>
-                    <span class="status-badge ${statusClasse}">
-                        ${venda.status}
-                    </span>
-                </td>
-            `;
-
-            corpoTabela.appendChild(tr);
         });
 
     } catch (error) {
 
-        alert(
-            'Erro ao carregar vendas: ' + error.message
+        console.error(error);
+        alert('Erro ao carregar clientes');
+    }
+}
+// =======================
+// CARREGAR PRODUTOS
+// =======================
+
+async function carregarProdutos() {
+
+    const select = document.getElementById('produto');
+
+    if (!select) return;
+
+    try {
+
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT_PRODUTOS}`
         );
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar produtos');
+        }
+
+        produtos = await response.json();
+
+        select.innerHTML =
+            '<option value="">Selecione o produto...</option>';
+
+        produtos.forEach(produto => {
+
+            const option =
+                document.createElement('option');
+
+            option.value = produto.id;
+
+            option.textContent =
+                `${produto.nome} (R$ ${produto.valorProduto})`;
+
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        alert('Erro ao carregar produtos');
     }
 }
 
-function adicionarItemCarrinho() {
 
-    const produtoSelect =
-        document.getElementById('produto');
+// =======================
+// ADICIONAR ITEM
+// =======================
 
-    const quantidadeInput =
-        document.getElementById('quantidade');
+function adicionarItem() {
 
-    const produtoId = produtoSelect.value;
-
-    const produtoTexto =
-        produtoSelect.options[
-            produtoSelect.selectedIndex
-        ].text;
+    const produtoId =
+        parseInt(document.getElementById('produto').value);
 
     const quantidade =
-        parseInt(quantidadeInput.value);
+        parseInt(document.getElementById('quantidade').value);
 
     if (!produtoId) {
 
         alert('Selecione um produto');
-
         return;
     }
 
-    const nomeProduto =
-        produtoTexto.split('(R$')[0].trim();
+    const produto = produtos.find(
+        p => p.id === produtoId
+    );
 
-    const precoTexto = produtoTexto
-        .split('(R$')[1]
-        .replace(')', '')
-        .replace('.', '')
-        .replace(',', '.');
+    if (!produto) return;
 
-    const preco = parseFloat(precoTexto);
+    carrinho.push({
 
-    const item = {
-        produtoId: produtoId,
-        nomeProduto: nomeProduto,
-        quantidade: quantidade,
-        precoUnitario: preco
-    };
+        produtoId: produto.id,
 
-    carrinho.push(item);
+        nome: produto.nome,
 
-    atualizarResumoPedido();
+        preco: produto.valorProduto,
+
+        quantidade: quantidade
+    });
+
+    atualizarResumo();
 }
 
-function atualizarResumoPedido() {
 
-    const listaCarrinho =
+// =======================
+// RESUMO DO PEDIDO
+// =======================
+
+function atualizarResumo() {
+
+    const lista =
         document.querySelector('.cart-list');
 
-    listaCarrinho.innerHTML = '';
+    if (!lista) return;
+
+    lista.innerHTML = '';
 
     let subtotal = 0;
 
     carrinho.forEach(item => {
 
         const totalItem =
-            item.quantidade * item.precoUnitario;
+            item.preco * item.quantidade;
 
         subtotal += totalItem;
 
-        const li = document.createElement('li');
+        const li =
+            document.createElement('li');
 
         li.classList.add('cart-item');
 
         li.innerHTML = `
             <div>
-                <p class="item-name">
-                    ${item.nomeProduto}
-                </p>
-
+                <p class="item-name">${item.nome}</p>
                 <small class="item-meta">
-                    ${item.quantidade}x
-                    R$ ${item.precoUnitario.toFixed(2)}
+                    ${item.quantidade}x R$ ${item.preco}
                 </small>
             </div>
 
@@ -195,140 +187,150 @@ function atualizarResumoPedido() {
             </span>
         `;
 
-        listaCarrinho.appendChild(li);
+        lista.appendChild(li);
     });
 
-    const descontoInput =
-        document.getElementById('desconto');
+    const desconto =
+        parseFloat(
+            document.getElementById('desconto')
+                ?.value
+                .replace(',', '.')
+        ) || 0;
 
-    let desconto = parseFloat(
-        descontoInput.value.replace(',', '.')
-    );
+    const total = subtotal - desconto;
 
-    if (isNaN(desconto)) {
-        desconto = 0;
-    }
-
-    const totalFinal = subtotal - desconto;
-
-    const totais =
-        document.querySelectorAll(
-            '.total span:last-child'
-        );
-
-    totais[0].textContent =
+    document.querySelector(
+        '.totals .total:nth-child(1) span:last-child'
+    ).textContent =
         `R$ ${subtotal.toFixed(2)}`;
 
-    totais[1].textContent =
+    document.querySelector(
+        '.discount-value'
+    ).textContent =
         `- R$ ${desconto.toFixed(2)}`;
 
-    totais[2].textContent =
-        `R$ ${totalFinal.toFixed(2)}`;
+    document.querySelector(
+        '.total.final span:last-child'
+    ).textContent =
+        `R$ ${total.toFixed(2)}`;
 }
 
-async function finalizarVenda() {
+
+// =======================
+// FINALIZAR VENDA
+// =======================
+
+async function finalizarVenda(event) { 
+
+    event.preventDefault();
+
+    const selectCliente =
+        document.getElementById('cliente');
+
+    const clienteId =
+        Number(selectCliente.value);
+
+    console.log(
+        'Valor do select:',
+        selectCliente.value
+    );
+
+    console.log(
+        'Cliente ID:',
+        clienteId
+    );
+
+    if (isNaN(clienteId)) {
+
+        alert(
+            'Cliente inválido. Verifique o select.'
+        );
+
+        return;
+    }
+}
+// =======================
+// LISTAR VENDAS
+// =======================
+
+async function carregarVendas() {
+
+    const tbody =
+        document.querySelector('table tbody');
+
+    if (!tbody) return;
 
     try {
 
-        const clienteId =
-            document.getElementById('cliente').value;
-
-        const formaPagamento =
-            document.getElementById(
-                'forma-pagamento'
-            ).value;
-
-        const descontoTexto =
-            document.getElementById(
-                'desconto'
-            ).value;
-
-        let desconto = parseFloat(
-            descontoTexto.replace(',', '.')
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT_VENDAS}`
         );
 
-        if (isNaN(desconto)) {
-            desconto = 0;
+        if (!response.ok) {
+            throw new Error('Erro ao carregar vendas');
         }
 
-        if (!clienteId) {
+        const vendas =
+            await response.json();
 
-            alert('Selecione um cliente');
+        tbody.innerHTML = '';
 
-            return;
-        }
+        vendas.forEach(venda => {
 
-        if (carrinho.length === 0) {
+            const tr =
+                document.createElement('tr');
 
-            alert('Adicione produtos');
+            tr.innerHTML = `
+                <td>${venda.id}</td>
+                <td>${venda.clienteId}</td>
+                <td>${venda.itens.length} item(s)</td>
+                <td>
+                    ${new Date(venda.data)
+                        .toLocaleString('pt-BR')}
+                </td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                    <span class="status-badge paid">
+                        Pago
+                    </span>
+                </td>
+            `;
 
-            return;
-        }
-
-        const payload = {
-            data: data, 
-            clienteId: parseInt(clienteId),
-            itens: carrinho.map(item => ({
-                produtoId: item.produtoId,
-                quantidade: item.quantidade,
-                precoUnitario: item.precoUnitario
-            }))
-        };
-
-        await apiFetch(
-            ENDPOINT,
-            'POST',
-            payload
-        );
-
-        alert('Venda cadastrada com sucesso!');
-
-        carrinho = [];
-
-        atualizarResumoPedido();
-
-        window.location.href = 'Vendas.html';
+            tbody.appendChild(tr);
+        });
 
     } catch (error) {
 
-        alert(
-            'Erro ao finalizar venda: ' +
-            error.message
-        );
+        console.error(error);
     }
 }
+
+
+// =======================
+// EVENTOS
+// =======================
 
 document.addEventListener(
     'DOMContentLoaded',
     () => {
 
-        if (document.querySelector('table')) {
-            carregarTabelaVendas();
-        }
+        carregarClientes();
 
-        const btnAdicionar =
+        carregarProdutos();
+
+        carregarVendas();
+
+        const btnInserir =
             document.querySelector(
                 '.btn-add-item'
             );
 
-        if (btnAdicionar) {
+        if (btnInserir) {
 
-            btnAdicionar.addEventListener(
+            btnInserir.addEventListener(
                 'click',
-                adicionarItemCarrinho
-            );
-        }
-
-        const descontoInput =
-            document.getElementById(
-                'desconto'
-            );
-
-        if (descontoInput) {
-
-            descontoInput.addEventListener(
-                'input',
-                atualizarResumoPedido
+                adicionarItem
             );
         }
 
@@ -341,14 +343,21 @@ document.addEventListener(
 
             btnFinalizar.addEventListener(
                 'click',
-                (e) => {
+                finalizarVenda
+            );
+        }
 
-                    e.preventDefault();
+        const desconto =
+            document.getElementById(
+                'desconto'
+            );
 
-                    finalizarVenda();
-                }
+        if (desconto) {
+
+            desconto.addEventListener(
+                'input',
+                atualizarResumo
             );
         }
     }
 );
-

@@ -41,58 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="product-cell">
-                                <span>Produto1</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 1', '10', 'R$ 150,00', 'Logitech', 'Mouse com sensor óptico de alta precisão e iluminação RGB.')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>10</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="product-cell">
-                                <span>Produto2</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 2', '15', 'R$ 320,00', 'Razer', 'Teclado mecânico com switches silenciosos e padrão ABNT2.')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>15</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="product-cell">
-                                <span>Produto3</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 3', '20', 'R$ 1.200,00', 'ASUS', 'Monitor Gamer 24 polegadas com taxa de atualização de 144Hz.')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>20</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="product-cell">
-                                <span>Produto4</span>
-                                <button type="button" class="btn-detail-arrow" title="Ver detalhes" onclick="abrirDetalhesProd('Produto 4', '5', 'R$ 450,00', 'HyperX', 'Headset estéreo com isolamento acústico e microfone removível.')">&#10142;</button>
-                            </div>
-                        </td>
-                        <td>5</td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn-action edit">Editar</button>
-                            <button type="button" class="btn-action delete">Excluir</button>
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -137,27 +86,6 @@
         </div>
     </div>
     <form id="form-cadastro-produto"></form>
-
-    <script> 
-        function abrirDetalhesProd(nome, qtd, preco, marca, desc) {
-            document.getElementById('prod-nome').value = nome;
-            document.getElementById('prod-qtd').value = qtd;
-            document.getElementById('prod-preco').value = preco;
-            document.getElementById('prod-marca').value = marca;
-            document.getElementById('prod-desc').value = desc;
-
-            document.getElementById('drawer-produto').classList.add('active');
-        }
-
-        function fecharDetalhesProd() {
-            document.getElementById('drawer-produto').classList.remove('active');
-        }
-
-        function salvarProduto() {
-            alert("Produto atualizado com sucesso!");
-            fecharDetalhesProd();
-        }
-    </script>
 
     <script src="produto.js"></script>
     
