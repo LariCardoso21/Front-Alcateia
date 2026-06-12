@@ -1,124 +1,136 @@
-const API_URL = 'http://localhost:5191/api';
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api/Vendas';
+
+const ENDPOINT_VENDAS = 'PedidoVenda';
+const ENDPOINT_CLIENTES = 'Clientes';
+const ENDPOINT_PRODUTOS = 'Produto';
 
 let clientes = [];
 let produtos = [];
 let carrinho = [];
 
 
-
-// =========================
+// =======================
 // CARREGAR CLIENTES
-// =========================
+// =======================
 
 async function carregarClientes() {
 
-    const selectCliente =
-        document.getElementById('cliente');
+    const select = document.getElementById('cliente');
 
-    if (!selectCliente) return;
+    if (!select) return;
 
     try {
 
-        const response =
-            await fetch(`${API_URL}/Clientes`);
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT_CLIENTES}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar clientes');
+        }
 
         clientes = await response.json();
 
-        selectCliente.innerHTML =
-            '<option value="">Selecione um cliente...</option>';
+        console.log("CLIENTES:", clientes);
 
-        clientes.forEach((cliente, index) => {
+        select.innerHTML =
+            '<option value="">Escolha um cliente...</option>';
 
-            selectCliente.innerHTML += `
-                <option value="${index + 1}">
-                    ${cliente.nome || cliente.Nome}
-                </option>
-            `;
+        clientes.forEach(cliente => {
+
+            const option = document.createElement('option');
+
+            // força pegar o id
+            option.value = String(cliente.id);
+
+            option.textContent = cliente.nome;
+
+            select.appendChild(option);
         });
 
-    } catch (erro) {
+        // debug
+        select.addEventListener('change', () => {
+            console.log(
+                'Cliente escolhido:',
+                select.value
+            );
+        });
 
-        console.error(erro);
+    } catch (error) {
 
+        console.error(error);
         alert('Erro ao carregar clientes');
     }
 }
-
-
-
-// =========================
+// =======================
 // CARREGAR PRODUTOS
-// =========================
+// =======================
 
 async function carregarProdutos() {
 
-    const selectProduto =
-        document.getElementById('produto');
+    const select = document.getElementById('produto');
 
-    if (!selectProduto) return;
+    if (!select) return;
 
     try {
 
-        const response =
-            await fetch(`${API_URL}/Produto`);
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT_PRODUTOS}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar produtos');
+        }
 
         produtos = await response.json();
 
-        selectProduto.innerHTML =
-            '<option value="">Selecione um produto...</option>';
+        select.innerHTML =
+            '<option value="">Selecione o produto...</option>';
 
         produtos.forEach(produto => {
 
-            selectProduto.innerHTML += `
-                <option value="${produto.id}">
-                    ${produto.nome}
-                    (R$ ${produto.valorProduto})
-                </option>
-            `;
+            const option =
+                document.createElement('option');
+
+            option.value = produto.id;
+
+            option.textContent =
+                `${produto.nome} (R$ ${produto.valorProduto})`;
+
+            select.appendChild(option);
         });
 
-    } catch (erro) {
+    } catch (error) {
 
-        console.error(erro);
-
+        console.error(error);
         alert('Erro ao carregar produtos');
     }
 }
 
 
+// =======================
+// ADICIONAR ITEM
+// =======================
 
-// =========================
-// INSERIR ITEM
-// =========================
-
-function inserirItem() {
+function adicionarItem() {
 
     const produtoId =
-        document.getElementById('produto').value;
+        parseInt(document.getElementById('produto').value);
 
     const quantidade =
-        parseInt(
-            document.getElementById('quantidade').value
-        );
+        parseInt(document.getElementById('quantidade').value);
 
     if (!produtoId) {
 
         alert('Selecione um produto');
-
         return;
     }
 
-    const produto =
-        produtos.find(
-            p => p.id == produtoId
-        );
+    const produto = produtos.find(
+        p => p.id === produtoId
+    );
 
-    if (!produto) {
-
-        alert('Produto não encontrado');
-
-        return;
-    }
+    if (!produto) return;
 
     carrinho.push({
 
@@ -126,20 +138,18 @@ function inserirItem() {
 
         nome: produto.nome,
 
-        preco:
-            produto.valorProduto || 0,
+        preco: produto.valorProduto,
 
-        quantidade
+        quantidade: quantidade
     });
 
     atualizarResumo();
 }
 
 
-
-// =========================
-// ATUALIZAR RESUMO
-// =========================
+// =======================
+// RESUMO DO PEDIDO
+// =======================
 
 function atualizarResumo() {
 
@@ -159,326 +169,194 @@ function atualizarResumo() {
 
         subtotal += totalItem;
 
-        lista.innerHTML += `
-            <li class="cart-item">
+        const li =
+            document.createElement('li');
 
-                <div>
+        li.classList.add('cart-item');
 
-                    <p class="item-name">
-                        ${item.nome}
-                    </p>
+        li.innerHTML = `
+            <div>
+                <p class="item-name">${item.nome}</p>
+                <small class="item-meta">
+                    ${item.quantidade}x R$ ${item.preco}
+                </small>
+            </div>
 
-                    <small class="item-meta">
-                        ${item.quantidade}x
-                        R$ ${item.preco.toFixed(2)}
-                    </small>
-
-                </div>
-
-                <span class="item-price">
-                    R$ ${totalItem.toFixed(2)}
-                </span>
-
-            </li>
+            <span class="item-price">
+                R$ ${totalItem.toFixed(2)}
+            </span>
         `;
+
+        lista.appendChild(li);
     });
 
     const desconto =
         parseFloat(
-            document.getElementById('desconto').value
+            document.getElementById('desconto')
+                ?.value
                 .replace(',', '.')
         ) || 0;
 
-    const total =
-        subtotal - desconto;
+    const total = subtotal - desconto;
 
-    document.querySelector('.totals').innerHTML = `
-        <div class="total">
-            <span>Subtotal:</span>
-            <span>R$ ${subtotal.toFixed(2)}</span>
-        </div>
+    document.querySelector(
+        '.totals .total:nth-child(1) span:last-child'
+    ).textContent =
+        `R$ ${subtotal.toFixed(2)}`;
 
-        <div class="total">
-            <span>Desconto:</span>
+    document.querySelector(
+        '.discount-value'
+    ).textContent =
+        `- R$ ${desconto.toFixed(2)}`;
 
-            <span class="discount-value">
-                - R$ ${desconto.toFixed(2)}
-            </span>
-        </div>
-
-        <hr class="hr">
-
-        <div class="total final">
-
-            <span>Total Geral:</span>
-
-            <span>
-                R$ ${total.toFixed(2)}
-            </span>
-
-        </div>
-    `;
+    document.querySelector(
+        '.total.final span:last-child'
+    ).textContent =
+        `R$ ${total.toFixed(2)}`;
 }
 
 
-
-// =========================
+// =======================
 // FINALIZAR VENDA
-// =========================
+// =======================
 
-async function finalizarVenda(event) {
+async function finalizarVenda(event) { 
 
     event.preventDefault();
 
+    const selectCliente =
+        document.getElementById('cliente');
+
     const clienteId =
-        parseInt(
-            document.getElementById('cliente').value
-        );
+        Number(selectCliente.value);
+
+    console.log(
+        'Valor do select:',
+        selectCliente.value
+    );
+
+    console.log(
+        'Cliente ID:',
+        clienteId
+    );
 
     if (isNaN(clienteId)) {
 
-        alert('Selecione um cliente');
+        alert(
+            'Cliente inválido. Verifique o select.'
+        );
 
         return;
-    }
-
-    if (carrinho.length === 0) {
-
-        alert('Adicione produtos');
-
-        return;
-    }
-
-    const payload = {
-
-        id: 0,
-
-        data:
-            new Date().toISOString(),
-
-        clienteId:
-            clienteId,
-
-        itens:
-            carrinho.map(item => ({
-
-                id: 0,
-
-                produtoId:
-                    item.produtoId,
-
-                precoUnitario:
-                    item.preco,
-
-                quantidade:
-                    item.quantidade,
-
-                pedidoVendaId: 0
-            }))
-    };
-
-    console.log(payload);
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/PedidoVenda`,
-                {
-
-                    method: 'POST',
-
-                    headers: {
-                        'Content-Type':
-                            'application/json'
-                    },
-
-                    body:
-                        JSON.stringify(payload)
-                }
-            );
-
-        if (!response.ok) {
-
-            const erro =
-                await response.text();
-
-            console.log(erro);
-
-            throw new Error(
-                'Erro ao finalizar venda'
-            );
-        }
-
-        alert('Venda realizada com sucesso!');
-
-        window.location.href =
-            'Vendas.html';
-
-    } catch (erro) {
-
-        console.error(erro);
-
-        alert(erro.message);
     }
 }
-
-
-
-// =========================
+// =======================
 // LISTAR VENDAS
-// =========================
+// =======================
 
-async function listarVendas() {
+async function carregarVendas() {
 
     const tbody =
-        document.querySelector('tbody');
+        document.querySelector('table tbody');
 
     if (!tbody) return;
 
     try {
 
-        const response =
-            await fetch(
-                `${API_URL}/PedidoVenda`
-            );
+        const response = await fetch(
+            `${BASE_URL}/${ENDPOINT_VENDAS}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar vendas');
+        }
 
         const vendas =
             await response.json();
 
         tbody.innerHTML = '';
 
-        for (const venda of vendas) {
+        vendas.forEach(venda => {
 
-            let nomeCliente =
-                `Cliente ID ${venda.clienteId}`;
+            const tr =
+                document.createElement('tr');
 
-            if (
-                clientes[venda.clienteId - 1]
-            ) {
-
-                nomeCliente =
-                    clientes[venda.clienteId - 1].nome
-                    ||
-                    clientes[venda.clienteId - 1].Nome;
-            }
-
-            let total = 0;
-
-            venda.itens.forEach(item => {
-
-                total +=
-                    item.precoUni *
-                    item.quantidade;
-            });
-
-            const nomesProdutos =
-                venda.itens.map(item => {
-
-                    const produto =
-                        produtos.find(
-                            p =>
-                                p.id ==
-                                item.produtoId
-                        );
-
-                    return produto
-                        ? produto.nome
-                        : 'Produto';
-                }).join(', ');
-
-            tbody.innerHTML += `
-                <tr>
-
-                    <td>
-                        #${venda.id}
-                    </td>
-
-                    <td>
-                        ${nomeCliente}
-                    </td>
-
-                    <td>
-                        ${nomesProdutos}
-                    </td>
-
-                    <td>
-                        ${new Date(venda.data)
-                            .toLocaleString()}
-                    </td>
-
-                    <td class="price-value">
-                        R$ ${total.toFixed(2)}
-                    </td>
-
-                    <td>
-                        Pix
-                    </td>
-
-                    <td>
-                        <span class="status-badge paid">
-                            Pago
-                        </span>
-                    </td>
-
-                </tr>
+            tr.innerHTML = `
+                <td>${venda.id}</td>
+                <td>${venda.clienteId}</td>
+                <td>${venda.itens.length} item(s)</td>
+                <td>
+                    ${new Date(venda.data)
+                        .toLocaleString('pt-BR')}
+                </td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                    <span class="status-badge paid">
+                        Pago
+                    </span>
+                </td>
             `;
-        }
 
-    } catch (erro) {
+            tbody.appendChild(tr);
+        });
 
-        console.error(erro);
+    } catch (error) {
 
-        alert('Erro ao listar vendas');
+        console.error(error);
     }
 }
 
 
-
-// =========================
+// =======================
 // EVENTOS
-// =========================
+// =======================
 
 document.addEventListener(
     'DOMContentLoaded',
-    async () => {
+    () => {
 
-        await carregarClientes();
+        carregarClientes();
 
-        await carregarProdutos();
+        carregarProdutos();
 
-        await listarVendas();
+        carregarVendas();
 
         const btnInserir =
-            document.querySelector('.btn-add-item');
+            document.querySelector(
+                '.btn-add-item'
+            );
 
         if (btnInserir) {
 
             btnInserir.addEventListener(
                 'click',
-                inserirItem
-            );
-        }
-
-        const desconto =
-            document.getElementById('desconto');
-
-        if (desconto) {
-
-            desconto.addEventListener(
-                'input',
-                atualizarResumo
+                adicionarItem
             );
         }
 
         const btnFinalizar =
-            document.querySelector('.btn-finalize');
+            document.querySelector(
+                '.btn-finalize'
+            );
 
         if (btnFinalizar) {
 
             btnFinalizar.addEventListener(
                 'click',
                 finalizarVenda
+            );
+        }
+
+        const desconto =
+            document.getElementById(
+                'desconto'
+            );
+
+        if (desconto) {
+
+            desconto.addEventListener(
+                'input',
+                atualizarResumo
             );
         }
     }

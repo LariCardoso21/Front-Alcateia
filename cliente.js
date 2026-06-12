@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:5191/api';
-const ENDPOINT = 'Clientes';
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api';
+const ENDPOINT = 'Clientes'
 
 let clienteSelecionadoId = null;
 
@@ -14,7 +14,7 @@ async function obterTodosClientes() {
         const response = await fetch(`${BASE_URL}/${ENDPOINT}`);
 
         if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
+            throw new Error(`Erro https: ${response.status}`);
         }
 
         const clientes = await response.json();

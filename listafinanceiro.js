@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5191/api';
+const API_URL = 'https://api-alcateia.azurewebsites.net/api/Financeiro';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarRegistros();

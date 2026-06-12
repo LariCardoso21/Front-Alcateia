@@ -1,18 +1,16 @@
-const BASE_URL = 'http://localhost:5191/api';
-
-
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api/Estoque';
 
 async function carregarEstoque() {
 
     try {
 
         const response = await fetch(
-            `${BASE_URL}/Produto`
+            `${BASE_URL}`
         );
 
         if (!response.ok) {
             throw new Error(
-                'Erro ao carregar produtos'
+                'Erro ao carregar estoque'
             );
         }
 

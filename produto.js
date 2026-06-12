@@ -1,304 +1,249 @@
-
-const BASE_URL = 'http://localhost:5191/api';
-const ENDPOINT = 'Produto';
+const BASE_URL = "https://api-alcateia.azurewebsites.net/api";
+const ENDPOINT = "Produto";
 
 let produtoSelecionadoId = null;
 
-
 async function obterTodosProdutos() {
+  try {
+    const response = await fetch(`${BASE_URL}/${ENDPOINT}`);
 
-    try {
-
-        const response = await fetch(`${BASE_URL}/${ENDPOINT}`);
-
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-        }
-
-        const produtos = await response.json();
-
-        console.log(produtos);
-
-        const tbody = document.querySelector('.data-table tbody');
-
-        if (!tbody) return;
-
-        tbody.innerHTML = '';
-
-        produtos.forEach(produto => {
-
-            const tr = document.createElement('tr');
-
-            tr.innerHTML = `
-            
-                <td>
-                    <div class="product-cell">
-
-                        <span>${produto.nome}</span>
-
-                        <button
-                            type="button"
-                            class="btn-detail-arrow"
-                            title="Ver detalhes"
-                            onclick="abrirDetalhesProd(
-                                ${produto.id},
-                                '${produto.nome}',
-                                '${produto.qtdEstoque}',
-                                '${produto.valorProduto}',
-                                '${produto.marca}',
-                                '${produto.descricao}'
-                            )"
-                        >
-                            &#10142;
-                        </button>
-
-                    </div>
-                </td>
-
-                <td>${produto.qtdEstoque}</td>
-
-                <td style="text-align:center;">
-
-                    <button
-                        type="button"
-                        class="btn-action edit"
-                        onclick="abrirDetalhesProd(
-                            ${produto.id},
-                            '${produto.nome}',
-                            '${produto.qtdEstoque}',
-                            '${produto.valorProduto}',
-                            '${produto.marca}',
-                            '${produto.descricao}'
-                        )"
-                    >
-                        Editar
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-action delete"
-                        onclick="excluirProduto(${produto.id})"
-                    >
-                        Excluir
-                    </button>
-
-                </td>
-            `;
-
-            tbody.appendChild(tr);
-
-        });
-
-    } catch (error) {
-
-        console.error(error);
-        alert('Erro ao carregar produtos');
+    if (!response.ok) {
+      throw new Error(`Erro https: ${response.status}`);
     }
+
+    const produtos = await response.json();
+
+    console.log(produtos);
+
+    const tbody = document.querySelector(".data-table tbody");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    produtos.forEach((produto) => {
+      const nomeSeguro = (produto.nome || "")
+        .replace(/\n/g, " ")
+        .replace(/'/g, "\\'");
+
+      const marcaSegura = (produto.marca || "")
+        .replace(/\n/g, " ")
+        .replace(/'/g, "\\'");
+
+      const descricaoSegura = (produto.descricao || "")
+        .replace(/\n/g, " ")
+        .replace(/'/g, "\\'");
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>
+            <div class="product-cell">
+
+                <span>${produto.nome}</span>
+
+                <button
+                    type="button"
+                    class="btn-detail-arrow"
+                    title="Ver detalhes"
+                    onclick="abrirDetalhesProd(
+                        ${produto.id},
+                        '${nomeSeguro}',
+                        '${produto.qtdEstoque}',
+                        '${produto.valorProduto}',
+                        '${marcaSegura}',
+                        '${descricaoSegura}'
+                    )"
+                >
+                    &#10142;
+                </button>
+
+            </div>
+        </td>
+
+        <td>${produto.qtdEstoque}</td>
+
+        <td style="text-align:center;">
+
+            <button
+                type="button"
+                class="btn-action edit"
+                onclick="abrirDetalhesProd(
+                    ${produto.id},
+                    '${nomeSeguro}',
+                    '${produto.qtdEstoque}',
+                    '${produto.valorProduto}',
+                    '${marcaSegura}',
+                    '${descricaoSegura}'
+                )"
+            >
+                Editar
+            </button>
+
+            <button
+                type="button"
+                class="btn-action delete"
+                onclick="excluirProduto(${produto.id})"
+            >
+                Excluir
+            </button>
+
+        </td>
+    `;
+
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao carregar produtos");
+  }
 }
-
-
-
 
 async function cadastrarProduto(event) {
+  event.preventDefault();
 
-    event.preventDefault();
+  const payload = {
+    nome: document.getElementById("nome").value,
 
-    const payload = {
+    descricao: document.getElementById("descricao").value,
 
-        nome: document.getElementById('nome').value,
+    marca: document.getElementById("marca").value,
 
-        descricao: document.getElementById('descricao').value,
+    qtdEstoque: parseInt(document.getElementById("qtd-estoque").value),
 
-        marca: document.getElementById('marca').value,
+    qtdMinima: parseInt(document.getElementById("qtd-minima").value),
 
-        qtdEstoque: parseInt(
-            document.getElementById('qtd-estoque').value
-        ),
+    valorProduto: parseFloat(
+      document
+        .getElementById("valor")
+        .value.replace("R$", "")
+        .replace(",", "."),
+    ),
+  };
 
-        qtdMinima: parseInt(
-            document.getElementById('qtd-minima').value
-        ),
+  try {
+    const response = await fetch(`${BASE_URL}/${ENDPOINT}`, {
+      method: "POST",
 
-        valorProduto: parseFloat(
-            document.getElementById('valor').value
-                .replace('R$', '')
-                .replace(',', '.')
-        )
-    };
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-    try {
+      body: JSON.stringify(payload),
+    });
 
-        const response = await fetch(`${BASE_URL}/${ENDPOINT}`, {
-
-            method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            throw new Error('Erro ao cadastrar produto');
-        }
-
-        alert('Produto cadastrado com sucesso!');
-
-        window.location.href = 'produtos.html';
-
-    } catch (error) {
-
-        console.error(error);
-        alert(error.message);
+    if (!response.ok) {
+      throw new Error("Erro ao cadastrar produto");
     }
+
+    alert("Produto cadastrado com sucesso!");
+
+    window.location.href = "produtos.html";
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
 }
-
-
 
 async function salvarProduto() {
+  const payload = {
+    nome: document.getElementById("prod-nome").value,
 
-    const payload = {
+    descricao: document.getElementById("prod-desc").value,
 
-        nome: document.getElementById('prod-nome').value,
+    marca: document.getElementById("prod-marca").value,
 
-        descricao: document.getElementById('prod-desc').value,
+    qtdEstoque: parseInt(document.getElementById("prod-qtd").value),
 
-        marca: document.getElementById('prod-marca').value,
+    qtdMinima: 0,
 
-        qtdEstoque: parseInt(
-            document.getElementById('prod-qtd').value
-        ),
+    valorProduto: parseFloat(
+      document
+        .getElementById("prod-preco")
+        .value.replace("R$", "")
+        .replace(",", "."),
+    ),
+  };
 
-        qtdMinima: 0,
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${ENDPOINT}/${produtoSelecionadoId}`,
+      {
+        method: "PUT",
 
-        valorProduto: parseFloat(
-            document.getElementById('prod-preco').value
-                .replace('R$', '')
-                .replace(',', '.')
-        )
-    };
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-    try {
-
-        const response = await fetch(
-            `${BASE_URL}/${ENDPOINT}/${produtoSelecionadoId}`,
-            {
-
-                method: 'PUT',
-
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify(payload)
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error('Erro ao atualizar produto');
-        }
-
-        alert('Produto atualizado com sucesso!');
-
-        fecharDetalhesProd();
-
-        obterTodosProdutos();
-
-    } catch (error) {
-
-        console.error(error);
-        alert(error.message);
-    }
-}
-
-
-
-async function excluirProduto(id) {
-
-    const confirmar = confirm(
-        'Deseja excluir este produto?'
+        body: JSON.stringify(payload),
+      },
     );
 
-    if (!confirmar) return;
-
-    try {
-
-        const response = await fetch(
-            `${BASE_URL}/${ENDPOINT}/${id}`,
-            {
-                method: 'DELETE'
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error('Erro ao excluir produto');
-        }
-
-        alert('Produto excluído com sucesso!');
-
-        obterTodosProdutos();
-
-    } catch (error) {
-
-        console.error(error);
-        alert(error.message);
+    if (!response.ok) {
+      throw new Error("Erro ao atualizar produto");
     }
+
+    alert("Produto atualizado com sucesso!");
+
+    fecharDetalhesProd();
+
+    obterTodosProdutos();
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
 }
 
+async function excluirProduto(id) {
+  const confirmar = confirm("Deseja excluir este produto?");
 
+  if (!confirmar) return;
 
-function abrirDetalhesProd(
-    id,
-    nome,
-    qtd,
-    valor,
-    marca,
-    descricao
-) {
+  try {
+    const response = await fetch(`${BASE_URL}/${ENDPOINT}/${id}`, {
+      method: "DELETE",
+    });
 
-    produtoSelecionadoId = id;
+    if (!response.ok) {
+      throw new Error("Erro ao excluir produto");
+    }
 
-    document.getElementById('prod-nome').value = nome;
-    document.getElementById('prod-qtd').value = qtd;
-    document.getElementById('prod-preco').value = valor;
-    document.getElementById('prod-marca').value = marca;
-    document.getElementById('prod-desc').value = descricao;
+    alert("Produto excluído com sucesso!");
 
-    document
-        .getElementById('drawer-produto')
-        .classList.add('active');
+    obterTodosProdutos();
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
 }
 
+function abrirDetalhesProd(id, nome, qtd, valor, marca, descricao) {
+  produtoSelecionadoId = id;
+
+  document.getElementById("prod-nome").value = nome;
+  document.getElementById("prod-qtd").value = qtd;
+  document.getElementById("prod-preco").value = valor;
+  document.getElementById("prod-marca").value = marca;
+  document.getElementById("prod-desc").value = descricao;
+
+  document.getElementById("drawer-produto").classList.add("active");
+}
 
 function fecharDetalhesProd() {
-
-    document
-        .getElementById('drawer-produto')
-        .classList.remove('active');
+  document.getElementById("drawer-produto").classList.remove("active");
 }
-
-
 
 window.abrirDetalhesProd = abrirDetalhesProd;
 window.fecharDetalhesProd = fecharDetalhesProd;
 window.salvarProduto = salvarProduto;
 window.excluirProduto = excluirProduto;
 
+document.addEventListener("DOMContentLoaded", () => {
+  obterTodosProdutos();
 
+  const form = document.querySelector("form");
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    obterTodosProdutos();
-
-    const form = document.querySelector('form');
-
-    if (form) {
-
-        form.addEventListener(
-            'submit',
-            cadastrarProduto
-        );
-    }
+  if (form) {
+    form.addEventListener("submit", cadastrarProduto);
+  }
 });
-

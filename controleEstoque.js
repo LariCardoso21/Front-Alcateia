@@ -1,10 +1,6 @@
-// controleEstoque.js
-
-const BASE_URL = 'http://localhost:5191/api';
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api';
 
 let historico = [];
-
-
 
 async function carregarControleEstoque() {
 
@@ -33,9 +29,6 @@ async function carregarControleEstoque() {
         alert(error.message);
     }
 }
-
-
-
 
 function atualizarResumo(produtos) {
 
