@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5191/api';
+const BASE_URL = 'https://api-alcateia.azurewebsites.net/api';
 const ENDPOINT = 'Cliente';
 
 let clienteSelecionadoId = null;
