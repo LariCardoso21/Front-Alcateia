@@ -1,5 +1,5 @@
 const BASE_URL = 'https://api-alcateia.azurewebsites.net/api';
-const ENDPOINT = 'Cliente';
+const ENDPOINT = 'Clientes';
 
 let clienteSelecionadoId = null;
 
